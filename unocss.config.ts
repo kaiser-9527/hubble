@@ -4,7 +4,15 @@ import { colors } from "@unocss/preset-mini";
 import { presetScrollbar } from "unocss-preset-scrollbar";
 
 export default defineConfig({
-  presets: [presetIcons(), presetUno(), presetScrollbar()],
+  presets: [
+    presetIcons(),
+    presetUno(),
+    presetScrollbar({
+      scrollbarWidth: "4px",
+      scrollbarTrackColor: "transparent",
+      scrollbarThumbColor: "#424242",
+    }),
+  ],
   transformers: [transformerDirectives()],
   theme: {
     colors: {

@@ -1,5 +1,9 @@
-const SearchBar = () =>{
-  return <>searchbar</>
-}
+const SearchBar = () => {
+  return (
+    <div>
+      <input type="text" />
+    </div>
+  );
+};
 
-export default SearchBar
+export default SearchBar;

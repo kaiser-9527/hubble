@@ -1,0 +1,3 @@
+.scroll-bar {
+  @apply scrollbar scrollbar-rounded;
+}
