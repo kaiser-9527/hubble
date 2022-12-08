@@ -3,10 +3,9 @@ import useUser from "~/hooks/useUser";
 
 export default function Home() {
   const { user } = useUser();
-  console.log(user);
-
   return (
     <>
+      {user?.email}
       <main>home page</main>
       <Link to="/app">APP</Link>
     </>

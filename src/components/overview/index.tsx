@@ -1,9 +1,27 @@
+import { useMemo } from "react";
+import useOverview from "~/hooks/useOverview";
 import SideBarList from "../sideBar/list";
 
 const OverView = () => {
-  const arr = new Array(2).fill({ label: "12" });
+  const overview = useOverview();
+  const list = useMemo(() => {
+    return [
+      {
+        label: "total",
+        extral: overview.total,
+      },
+      {
+        label: "pure",
+        extral: overview.pure,
+      },
+    ];
+  }, [overview]);
   return (
-    <SideBarList title="overview" className="shrink-0" list={arr}></SideBarList>
+    <SideBarList
+      title="Overview"
+      className="shrink-0"
+      list={list}
+    ></SideBarList>
   );
 };
 

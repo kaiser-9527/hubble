@@ -1,19 +1,15 @@
 import { useEffect, useState } from "react";
-import { UserMetadata } from "~/types/common";
-import { supabase } from "~/utils/supabase";
+import { TUserMetadata } from "~/types/common";
+import { getSupabaseUser } from "~/utils/supabase";
 
 export default () => {
-  const [user, setUser] = useState<UserMetadata | null>(null);
+  const [user, setUser] = useState<TUserMetadata | undefined>();
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data }) => {
-      setUser((data.session?.user.user_metadata as UserMetadata) ?? null);
+    getSupabaseUser((user) => {
+      setUser(user?.user_metadata as TUserMetadata);
     });
   }, []);
-
-  supabase.auth.onAuthStateChange(async (event, session) => {
-    setUser((session?.user.user_metadata as UserMetadata) ?? null);
-  });
 
   return {
     user,

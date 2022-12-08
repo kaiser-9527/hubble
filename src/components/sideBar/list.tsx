@@ -1,9 +1,11 @@
+import React from "react";
 import toast from "react-hot-toast";
 
 interface Props {
   title?: string;
   list: Array<{
     label: string;
+    extral?: React.ReactNode;
   }>;
   className?: string;
 }
@@ -15,10 +17,11 @@ const SideBarList: React.FC<Props> = ({ title, list, className }) => {
         {list.map((item, i) => (
           <li
             onClick={() => toast("nice")}
-            className="px-2 py-2 rounded hover:bg-primary-900/20 hover:text-primary-400 cursor-pointer"
+            className="px-2 py-2 rounded hover:bg-primary-900/20 hover:text-primary-400 cursor-pointer flex justify-between"
             key={i}
           >
-            {item.label}
+            <span>{item.label}</span>
+            {item.extral && <span>{item.extral}</span>}
           </li>
         ))}
       </ul>

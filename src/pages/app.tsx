@@ -9,6 +9,7 @@ import UserInfo from "~/components/userInfo";
 import useUser from "~/hooks/useUser";
 import "~/styles/app.css";
 import Toaster from "~/components/toaster";
+import db from "~/utils/db";
 
 const App = () => {
   const { user } = useUser();
