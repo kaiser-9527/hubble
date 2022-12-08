@@ -7,6 +7,9 @@ import { resolve } from "path";
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react(), Unocss(), Pages()],
+  server: {
+    port: 9527,
+  },
   resolve: {
     alias: {
       "~": resolve(__dirname, "src"),

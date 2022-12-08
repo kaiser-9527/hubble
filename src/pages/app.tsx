@@ -1,5 +1,5 @@
 import LanguageList from "~/components/languageList";
-import Login from "~/components/login";
+import Login from "~/components/signIn";
 import OverView from "~/components/overview";
 import RepoList from "~/components/repo/list";
 import SearchBar from "~/components/searchBar";
@@ -11,8 +11,6 @@ import "~/styles/app.css";
 
 const App = () => {
   const { user } = useUser();
-
-  console.log(user);
 
   if (!user) return <Login />;
 
