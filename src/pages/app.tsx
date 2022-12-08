@@ -8,6 +8,7 @@ import TagList from "~/components/tagList";
 import UserInfo from "~/components/userInfo";
 import useUser from "~/hooks/useUser";
 import "~/styles/app.css";
+import Toaster from "~/components/toaster";
 
 const App = () => {
   const { user } = useUser();
@@ -15,20 +16,23 @@ const App = () => {
   if (!user) return <Login />;
 
   return (
-    <main className="container  mx-auto h-screen relative flex py-10">
-      <SideBar>
-        <UserInfo></UserInfo>
-        <OverView />
-        <LanguageList></LanguageList>
-      </SideBar>
-      <section className="flex-1 flex flex-col px-4">
-        <SearchBar></SearchBar>
-        <RepoList></RepoList>
-      </section>
-      <SideBar>
-        <TagList></TagList>
-      </SideBar>
-    </main>
+    <>
+      <main className="container  mx-auto h-screen relative flex py-10">
+        <SideBar>
+          <UserInfo></UserInfo>
+          <OverView />
+          <LanguageList></LanguageList>
+        </SideBar>
+        <section className="flex-1 flex flex-col px-4">
+          <SearchBar></SearchBar>
+          <RepoList></RepoList>
+        </section>
+        <SideBar>
+          <TagList></TagList>
+        </SideBar>
+      </main>
+      <Toaster />
+    </>
   );
 };
 
