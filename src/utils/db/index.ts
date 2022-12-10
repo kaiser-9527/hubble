@@ -35,6 +35,16 @@ class DB extends DBBase {
 
     return tagList ?? [];
   }
+
+  async searchRepos(val?: string) {
+    const githubRepos = (await this.get(
+      TABLE_NAME.GH_REPO_LIST
+    )) as GithubRepo[];
+
+    console.log("DB: search", val);
+
+    return githubRepos.slice(0, 15);
+  }
 }
 
 export default new DB();
