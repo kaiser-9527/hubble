@@ -3,17 +3,19 @@ import DBBase, { TABLE_NAME } from "./base";
 
 class DB extends DBBase {
   async getOverView() {
-    const githubRepos = await this.get(TABLE_NAME.GH_REPOS);
+    const githubRepos = await this.get(TABLE_NAME.GH_REPO_LIST);
+    const supaRepos = await this.get(TABLE_NAME.SUPA_REPO_LIST);
 
-    // TODO get pure
     return {
-      total: githubRepos.length,
-      pure: 0,
+      total: githubRepos?.length ?? 0,
+      pure: Math.max(githubRepos?.length ?? 0 - supaRepos?.length ?? 0, 0),
     };
   }
 
   async getLangMap() {
-    const githubRepos = (await this.get(TABLE_NAME.GH_REPOS)) as GithubRepo[];
+    const githubRepos = (await this.get(
+      TABLE_NAME.GH_REPO_LIST
+    )) as GithubRepo[];
 
     const langMap: Record<string, number> = {};
     githubRepos.forEach((repo) => {
@@ -26,6 +28,12 @@ class DB extends DBBase {
     });
 
     return langMap;
+  }
+
+  async getTagList() {
+    const tagList = await this.get(TABLE_NAME.SUPA_TAG_LIST);
+
+    return tagList ?? [];
   }
 }
 

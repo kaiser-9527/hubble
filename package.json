@@ -13,12 +13,14 @@
     "@types/node": "^18.11.11",
     "idb-keyval": "^6.2.0",
     "lodash-es": "^4.17.21",
+    "pubsub-js": "^1.9.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hot-toast": "^2.4.0"
   },
   "devDependencies": {
     "@types/lodash-es": "^4.17.6",
+    "@types/pubsub-js": "^1.8.3",
     "@types/react": "^18.0.24",
     "@types/react-dom": "^18.0.8",
     "@unocss/preset-mini": "^0.47.5",

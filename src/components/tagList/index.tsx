@@ -1,8 +1,9 @@
+import useTagList from "~/hooks/useTagList";
 import SideBarList from "../sideBar/list";
 
 const TagList = () => {
-  const arr = new Array(13).fill({ label: "12" });
-  return <SideBarList title="tags" list={arr}></SideBarList>;
+  const { tagList } = useTagList();
+  return <SideBarList title="Tags" list={tagList}></SideBarList>;
 };
 
 export default TagList;
