@@ -1,21 +1,23 @@
-import { useEffect, useState } from "react";
-import PubSub from "pubsub-js";
-import db from "~/utils/db";
-import { GH_REPO_UPDATE } from "~/constants/pubEvent";
+import { useContext, useEffect, useState } from "react";
+import { RepoContext } from "~/components/context/repo";
 
+type LangItem = Record<string, number>;
 export default () => {
-  const [languageMap, setLanguageMap] = useState<Record<string, number>>({});
+  const [languageMap, setLanguageMap] = useState<LangItem>({});
+  const { githubRepoList } = useContext(RepoContext);
 
-  const getLangMap = () => {
-    db.getLangMap().then(setLanguageMap);
-  };
   useEffect(() => {
-    getLangMap();
-    const subToken = PubSub.subscribe(GH_REPO_UPDATE, getLangMap);
-    return () => {
-      PubSub.unsubscribe(subToken);
-    };
-  }, []);
+    const langMap: LangItem = {};
+    githubRepoList.forEach((repo) => {
+      const lang = repo.language ?? "Unknow";
+      if (!langMap[lang]) {
+        langMap[lang] = 0;
+      }
+      langMap[lang]++;
+    });
+
+    setLanguageMap(langMap);
+  }, [githubRepoList]);
 
   return languageMap;
 };

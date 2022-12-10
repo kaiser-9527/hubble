@@ -13,7 +13,6 @@
     "@types/node": "^18.11.11",
     "idb-keyval": "^6.2.0",
     "lodash-es": "^4.17.21",
-    "pubsub-js": "^1.9.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hot-toast": "^2.4.0"

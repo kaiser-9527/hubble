@@ -36,10 +36,10 @@ class DBBase {
   inited?: boolean;
 
   async init(uid?: string) {
+    console.log("DB: init. UID:", uid);
     if (uid && uid !== this.uid) {
       this.uid = uid;
       await this.checkLocalData();
-      console.log("DB: inited. UID:", uid);
     }
   }
 

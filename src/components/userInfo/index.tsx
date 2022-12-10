@@ -1,7 +1,8 @@
-import useUser from "~/hooks/useUser";
+import { useContext } from "react";
+import { UserContext } from "../context/user";
 
 const UserInfo = () => {
-  const { user } = useUser();
+  const { user } = useContext(UserContext);
 
   return (
     <div className="box flex gap-2 items-center flex-col">
@@ -10,9 +11,9 @@ const UserInfo = () => {
         alt="kaiser"
         width={66}
         height={66}
-        src={user?.avatar_url}
+        src={user?.user_metadata.avatar_url}
       />
-      <h3>{user?.name || user?.email}</h3>
+      <h3>{user?.user_metadata.name || user?.email}</h3>
     </div>
   );
 };

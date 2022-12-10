@@ -4,7 +4,7 @@ import { createContext, useState } from "react";
 import { GithubRepo } from "~/types/repo";
 import db from "~/utils/db";
 
-export const RepoContext = createContext<{
+export const SearchContext = createContext<{
   result: GithubRepo[];
   search: (val: string) => void;
 }>({
@@ -21,7 +21,7 @@ const RepoList = () => {
   };
 
   return (
-    <RepoContext.Provider
+    <SearchContext.Provider
       value={{
         result,
         search,
@@ -31,7 +31,7 @@ const RepoList = () => {
         <SearchBar />
         <List />
       </section>
-    </RepoContext.Provider>
+    </SearchContext.Provider>
   );
 };
 

@@ -4,17 +4,16 @@ import { BrowserRouter as Router, useRoutes } from "react-router-dom";
 import "@unocss/reset/tailwind.css";
 import "uno.css";
 import routes from "~react-pages";
-import { getSupabaseUser } from "./utils/supabase";
-import db from "./utils/db";
-
-getSupabaseUser((user) => db.init(user?.id));
+import UserProvider from "./components/context/user";
 
 const App = () => {
   return <Suspense fallback={<p>Loading...</p>}>{useRoutes(routes)}</Suspense>;
 };
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
-  <Router>
-    <App />
-  </Router>
+  <UserProvider>
+    <Router>
+      <App />
+    </Router>
+  </UserProvider>
 );

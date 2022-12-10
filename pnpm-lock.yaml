@@ -13,7 +13,6 @@ specifiers:
   '@vitejs/plugin-react': ^2.2.0
   idb-keyval: ^6.2.0
   lodash-es: ^4.17.21
-  pubsub-js: ^1.9.4
   react: ^18.2.0
   react-dom: ^18.2.0
   react-hot-toast: ^2.4.0
@@ -30,7 +29,6 @@ dependencies:
   '@types/node': 18.11.11
   idb-keyval: 6.2.0
   lodash-es: 4.17.21
-  pubsub-js: 1.9.4
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
   react-hot-toast: 2.4.0_biqbaboplfbrettd7655fr4n2y
@@ -1803,10 +1801,6 @@ packages:
       picocolors: 1.0.0
       source-map-js: 1.0.2
     dev: true
-
-  /pubsub-js/1.9.4:
-    resolution: {integrity: sha512-hJYpaDvPH4w8ZX/0Fdf9ma1AwRgU353GfbaVfPjfJQf1KxZ2iHaHl3fAUw1qlJIR5dr4F3RzjGaWohYUEyoh7A==}
-    dev: false
 
   /queue-microtask/1.2.3:
     resolution: {integrity: sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==}

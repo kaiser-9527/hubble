@@ -37,3 +37,8 @@ export interface GithubRepo {
 }
 
 export type TRepoItem = SupaRepo & GithubRepo;
+
+export type MixedRepo = GithubRepo &
+  SupaRepo & {
+    sid: number;
+  };

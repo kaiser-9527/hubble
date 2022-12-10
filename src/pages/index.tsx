@@ -1,13 +1,5 @@
-import { Link } from "react-router-dom";
-import useUser from "~/hooks/useUser";
+import Header from "~/components/header";
 
 export default function Home() {
-  const { user } = useUser();
-  return (
-    <>
-      {user?.email}
-      <main>home page</main>
-      <Link to="/app">APP</Link>
-    </>
-  );
+  return <Header />;
 }

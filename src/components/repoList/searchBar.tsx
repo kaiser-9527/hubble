@@ -1,10 +1,10 @@
 import { useState, KeyboardEvent, useContext } from "react";
 import "~/styles/search-bar.css";
-import { RepoContext } from ".";
+import { SearchContext } from ".";
 
 const SearchBar = () => {
   const [value, setValue] = useState("");
-  const { search } = useContext(RepoContext);
+  const { search } = useContext(SearchContext);
 
   // do search
   const handleInputKeydow = (e: KeyboardEvent<HTMLElement>) => {
