@@ -2,7 +2,7 @@ import { del, get, set } from "idb-keyval";
 import { getStarredList } from "~/api/github";
 import { pick } from "lodash-es";
 import { getSupaRepoList, getSupaTagList } from "~/api/supabase";
-import PubSub from "pubsub-js";
+
 import {
   GH_REPO_UPDATE,
   SUPA_REPO_UPDATE,
@@ -79,13 +79,11 @@ class DBBase {
   async syncSupaRepoList() {
     const { data, error } = await getSupaRepoList();
     this.set(TABLE_NAME.SUPA_REPO_LIST, error ? [] : data);
-    PubSub.publish(SUPA_REPO_UPDATE);
   }
 
   async syncSupaTagList() {
     const { data, error } = await getSupaTagList();
     this.set(TABLE_NAME.SUPA_TAG_LIST, error ? [] : data);
-    PubSub.publish(SUPA_TAG_UPDATE);
   }
 
   async syncGhRepoList() {
@@ -100,7 +98,6 @@ class DBBase {
       },
     }));
     this.set(TABLE_NAME.GH_REPO_LIST, data);
-    PubSub.publish(GH_REPO_UPDATE);
   }
 
   async forceSync() {

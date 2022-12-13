@@ -19,7 +19,6 @@
   },
   "devDependencies": {
     "@types/lodash-es": "^4.17.6",
-    "@types/pubsub-js": "^1.8.3",
     "@types/react": "^18.0.24",
     "@types/react-dom": "^18.0.8",
     "@unocss/preset-mini": "^0.47.5",
