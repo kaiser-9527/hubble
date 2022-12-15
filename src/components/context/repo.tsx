@@ -10,6 +10,7 @@ import {
 import useSearch from "~/hooks/useSearch";
 import useSyncData from "~/hooks/useSyncData";
 import { GithubRepo, MixedRepo, SupaRepo, SupaTag } from "~/types/repo";
+import { UnknownLangLabel } from "~/utils/constans";
 import SignIn from "../signIn";
 import { UserContext } from "./user";
 
@@ -25,7 +26,7 @@ export const RepoContext = createContext<{
   searchValue: string;
   search: (val?: string) => void;
   searchResult: MixedRepo[];
-  setSearchValue: (val?: string) => void;
+  setSearchValue: (val: string) => void;
 }>({
   githubRepoList: [],
   supaRepoList: [],
@@ -37,7 +38,7 @@ export const RepoContext = createContext<{
   searchValue: "",
   search: (val?: string) => [],
   searchResult: [],
-  setSearchValue: (val?: string) => {},
+  setSearchValue: (val: string) => {},
 });
 
 const RepoProvider: FC<{
@@ -59,7 +60,7 @@ const RepoProvider: FC<{
   const languageMap = useMemo(() => {
     const langMap: Record<string, number[]> = {};
     githubRepoList.forEach((repo) => {
-      const lang = repo.language ?? "Unknow";
+      const lang = repo.language ?? UnknownLangLabel;
       if (!langMap[lang]) {
         langMap[lang] = [];
       }

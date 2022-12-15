@@ -1,5 +1,6 @@
 import { pick } from "lodash-es";
 import { GithubRepo, MixedRepo, SupaRepo, SupaTag } from "~/types/repo";
+import { UnknownLangLabel } from "../constans";
 import { matchSearchType, matchVal } from "./match";
 
 const findSupaRepo = (list: SupaRepo[], gid: number) => {
@@ -44,7 +45,7 @@ export const mixRepos = ({
 };
 
 export default (value: string, source: MixedRepo[]) => {
-  const valList = value.split(" ");
+  const valList = value.split(" ").filter(Boolean);
   let result: MixedRepo[] = source;
   valList.forEach((val) => {
     const valType = matchSearchType(val);
@@ -55,7 +56,12 @@ export default (value: string, source: MixedRepo[]) => {
         result = result.filter((repo) => !repo.comment && !repo.tags);
         break;
       case "lang":
-        result = result.filter((repo) => repo.language === valType.value);
+        result = result.filter((repo) => {
+          if (valType.value === UnknownLangLabel) {
+            return !repo.language;
+          }
+          return repo.language === valType.value;
+        });
         break;
       case "tag":
         result = result.filter((repo) =>

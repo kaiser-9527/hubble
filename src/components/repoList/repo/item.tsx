@@ -1,9 +1,18 @@
 import { MixedRepo } from "~/types/repo";
-import style from "~/styles/repo-item.module.css";
+import { useState } from "react";
 
 const RepoItem: React.FC<{ repo: MixedRepo }> = ({ repo }) => {
+  const [editable, setEditable] = useState(false);
+
   return (
-    <li className="box">
+    <li className="box relative group">
+      <button
+        onClick={() => setEditable((e) => !e)}
+        className="absolute top-4 right-4 text-xs text-txt-4 focus:block group-hover:block hidden"
+      >
+        Edit
+      </button>
+
       <h4 className="pb-2 text-lg">
         <a
           href={repo.html_url}
@@ -14,23 +23,34 @@ const RepoItem: React.FC<{ repo: MixedRepo }> = ({ repo }) => {
           {/* TODO icon */}
         </a>
       </h4>
+
       {repo.description && (
         <p className="text-sm text-txt-2 pb-2">{repo.description}</p>
       )}
-      <p className="text-xs text-txt-3 pb-2 font-italic">
-        A simple javascript utility for conditionally joining classNames
-        together
-      </p>
-      <div className="flex gap-1 text-xs text-txt-2 pb-2">
-        <span className={style["tag-item"]}>Vue</span>
-        <span className={style["tag-item"]}>Component</span>
-      </div>
+
+      {repo.comment && (
+        <p className="text-xs text-txt-3 pb-2 font-italic">{repo.comment}</p>
+      )}
+
+      {repo.tags && (
+        <div className="flex gap-1 text-xs text-txt-2 pb-2">
+          {repo.tags.map((tag) => (
+            <span className="bg-fill-3 px-1 rounded text-txt-2" key={tag.id}>
+              {tag.name}
+            </span>
+          ))}
+        </div>
+      )}
+
+      {editable && <div className="h-10">nice</div>}
 
       <footer className="flex gap-4 text-txt-3 text-xs border-t border-dashed border-bd-1 pt-2">
         {/* TODO icons */}
         <span>{repo.stargazers_count}</span>
         <span>{repo.forks_count}</span>
         <span>{repo.watchers_count}</span>
+
+        {repo.language && <span>{repo.language}</span>}
       </footer>
     </li>
   );
