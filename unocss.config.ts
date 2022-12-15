@@ -42,5 +42,12 @@ export default defineConfig({
       },
     },
   },
-  shortcuts: [["box", "bg-base-container p-4 rounded-lg border border-bd-2"]],
+  shortcuts: [
+    ["box", "bg-base-container p-4 rounded-lg border border-bd-2"],
+    ["btn", "px-2 py-1 border rounded-lg border-bd-1"],
+    [
+      "btn-primary",
+      "bg-primary-500 border-primary-600 text-primary-50 hover:bg-primary-600",
+    ],
+  ],
 });

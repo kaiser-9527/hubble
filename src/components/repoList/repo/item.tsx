@@ -1,8 +1,18 @@
 import { MixedRepo } from "~/types/repo";
 import { useState } from "react";
+import CustomizeInfo from "./customizeInfo";
 
 const RepoItem: React.FC<{ repo: MixedRepo }> = ({ repo }) => {
   const [editable, setEditable] = useState(false);
+  const {
+    comment,
+    tags,
+    description,
+    stargazers_count,
+    forks_count,
+    language,
+    watchers_count,
+  } = repo;
 
   return (
     <li className="box relative group">
@@ -24,33 +34,17 @@ const RepoItem: React.FC<{ repo: MixedRepo }> = ({ repo }) => {
         </a>
       </h4>
 
-      {repo.description && (
-        <p className="text-sm text-txt-2 pb-2">{repo.description}</p>
-      )}
+      {description && <p className="text-sm text-txt-2 pb-2">{description}</p>}
 
-      {repo.comment && (
-        <p className="text-xs text-txt-3 pb-2 font-italic">{repo.comment}</p>
-      )}
-
-      {repo.tags && (
-        <div className="flex gap-1 text-xs text-txt-2 pb-2">
-          {repo.tags.map((tag) => (
-            <span className="bg-fill-3 px-1 rounded text-txt-2" key={tag.id}>
-              {tag.name}
-            </span>
-          ))}
-        </div>
-      )}
-
-      {editable && <div className="h-10">nice</div>}
+      <CustomizeInfo comment={comment} tags={tags} editable={editable} />
 
       <footer className="flex gap-4 text-txt-3 text-xs border-t border-dashed border-bd-1 pt-2">
         {/* TODO icons */}
-        <span>{repo.stargazers_count}</span>
-        <span>{repo.forks_count}</span>
-        <span>{repo.watchers_count}</span>
+        <span>{stargazers_count}</span>
+        <span>{forks_count}</span>
+        <span>{watchers_count}</span>
 
-        {repo.language && <span>{repo.language}</span>}
+        {language && <span>{language}</span>}
       </footer>
     </li>
   );
