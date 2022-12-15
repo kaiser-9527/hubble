@@ -7,11 +7,11 @@ const OverView = () => {
   const list = useMemo(() => {
     return [
       {
-        label: "total",
+        label: "All",
         extral: overview.total,
       },
       {
-        label: "pure",
+        label: "Pure",
         extral: overview.pure,
       },
     ];

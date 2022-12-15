@@ -1,6 +1,6 @@
 export interface SupaTag {
   id: number;
-  label: string;
+  name: string;
 }
 
 // repo on supabase
@@ -8,7 +8,7 @@ export interface SupaRepo {
   id: number;
   gid: number;
   comment?: string;
-  tagList?: SupaTag[];
+  tag_list?: number[];
 }
 
 /**
@@ -38,7 +38,19 @@ export interface GithubRepo {
 
 export type TRepoItem = SupaRepo & GithubRepo;
 
-export type MixedRepo = GithubRepo &
-  SupaRepo & {
-    sid: number;
-  };
+export type MixedRepo = Pick<
+  GithubRepo,
+  | "description"
+  | "language"
+  | "forks_count"
+  | "watchers_count"
+  | "stargazers_count"
+  | "full_name"
+  | "html_url"
+  | "owner"
+> & {
+  gid: number;
+  sid?: number;
+  comment?: string;
+  tags?: SupaTag[];
+};

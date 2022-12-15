@@ -11,9 +11,10 @@ export default () => {
   });
 
   useEffect(() => {
+    const pure = githubRepoList.length - supaRepoList.length;
     setOverview({
       total: githubRepoList.length,
-      pure: 0,
+      pure,
     });
   }, [githubRepoList, supaRepoList]);
 

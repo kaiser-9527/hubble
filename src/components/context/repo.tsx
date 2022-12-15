@@ -1,46 +1,72 @@
 import {
   createContext,
+  Dispatch,
   FC,
   ReactNode,
+  SetStateAction,
   useContext,
-  useEffect,
-  useState,
+  useMemo,
 } from "react";
-import { GithubRepo, SupaRepo, SupaTag } from "~/types/repo";
-import db from "~/utils/db";
-import { TABLE_NAME } from "~/utils/db/base";
+import useSearch from "~/hooks/useSearch";
+import useSyncData from "~/hooks/useSyncData";
+import { GithubRepo, MixedRepo, SupaRepo, SupaTag } from "~/types/repo";
+import SignIn from "../signIn";
 import { UserContext } from "./user";
 
 export const RepoContext = createContext<{
   githubRepoList: GithubRepo[];
   supaRepoList: SupaRepo[];
   supaTagList: SupaTag[];
+
+  // overview
+  languageMap: Record<string, number[]>;
+
+  // search
+  searchValue: string;
+  search: (val?: string) => void;
+  searchResult: MixedRepo[];
+  setSearchValue: (val?: string) => void;
 }>({
   githubRepoList: [],
   supaRepoList: [],
   supaTagList: [],
+
+  languageMap: {},
+
+  // search
+  searchValue: "",
+  search: (val?: string) => [],
+  searchResult: [],
+  setSearchValue: (val?: string) => {},
 });
 
 const RepoProvider: FC<{
   children?: ReactNode;
 }> = ({ children }) => {
   const { user } = useContext(UserContext);
-  const [githubRepoList, setGithubRepoList] = useState<GithubRepo[]>([]);
-  const [supaRepoList, setSupaRepoList] = useState<SupaRepo[]>([]);
-  const [supaTagList, setSupaTagList] = useState<SupaTag[]>([]);
 
-  useEffect(() => {
-    db.init(user?.id).then(async () => {
-      const ghRepos = await db.get(TABLE_NAME.GH_REPO_LIST);
-      setGithubRepoList(ghRepos ?? []);
+  if (!user) {
+    return <SignIn />;
+  }
 
-      const spRepos = await db.get(TABLE_NAME.SUPA_REPO_LIST);
-      setSupaRepoList(spRepos ?? []);
+  const { githubRepoList, supaRepoList, supaTagList } = useSyncData(user.id);
+  const { search, searchResult, searchValue, setSearchValue } = useSearch({
+    githubRepoList,
+    supaRepoList,
+    supaTagList,
+  });
 
-      const spTags = await db.get(TABLE_NAME.SUPA_TAG_LIST);
-      setSupaTagList(spTags ?? []);
+  const languageMap = useMemo(() => {
+    const langMap: Record<string, number[]> = {};
+    githubRepoList.forEach((repo) => {
+      const lang = repo.language ?? "Unknow";
+      if (!langMap[lang]) {
+        langMap[lang] = [];
+      }
+      langMap[lang].push(repo.id);
     });
-  }, []);
+    return langMap;
+  }, [githubRepoList]);
 
   return (
     <RepoContext.Provider
@@ -48,6 +74,15 @@ const RepoProvider: FC<{
         githubRepoList,
         supaRepoList,
         supaTagList,
+
+        //overview
+        languageMap,
+
+        // search
+        search,
+        searchResult,
+        searchValue,
+        setSearchValue,
       }}
     >
       {children}

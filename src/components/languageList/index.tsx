@@ -1,16 +1,23 @@
-import { useMemo } from "react";
-import useLanguageMap from "~/hooks/useLanguageMap";
+import { useContext, useMemo } from "react";
+import { RepoContext } from "../context/repo";
 import SideBarList from "../sideBar/list";
 
 const LanguageList = () => {
-  const langMap = useLanguageMap();
+  const { languageMap } = useContext(RepoContext);
+
   const list = useMemo(() => {
-    return Object.keys(langMap).map((key) => ({
+    return Object.keys(languageMap).map((key) => ({
       label: key,
-      extral: langMap[key],
+      extral: languageMap[key].length,
     }));
-  }, [langMap]);
-  return <SideBarList title="Languages" list={list}></SideBarList>;
+  }, [languageMap]);
+  return (
+    <SideBarList
+      title="Languages"
+      searchPrefix="lang:"
+      list={list}
+    ></SideBarList>
+  );
 };
 
 export default LanguageList;

@@ -1,7 +1,7 @@
-import { GithubRepo } from "~/types/repo";
+import { MixedRepo } from "~/types/repo";
 import style from "~/styles/repo-item.module.css";
 
-const RepoItem: React.FC<{ repo: GithubRepo }> = ({ repo }) => {
+const RepoItem: React.FC<{ repo: MixedRepo }> = ({ repo }) => {
   return (
     <li className="box">
       <h4 className="pb-2 text-lg">

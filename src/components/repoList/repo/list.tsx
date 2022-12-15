@@ -1,13 +1,13 @@
 import { useContext } from "react";
-import { SearchContext } from "..";
+import { RepoContext } from "~/components/context/repo";
 import RepoItem from "./item";
 
 const RepoList = () => {
-  const { result } = useContext(SearchContext);
+  const { searchResult } = useContext(RepoContext);
   return (
     <ul className="flex flex-col flex-1 overflow-y-scroll scroll-bar gap-4">
-      {result.map((repo) => (
-        <RepoItem repo={repo} key={repo.id} />
+      {searchResult.map((repo) => (
+        <RepoItem repo={repo} key={repo.gid} />
       ))}
     </ul>
   );

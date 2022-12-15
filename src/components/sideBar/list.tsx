@@ -1,7 +1,8 @@
-import React from "react";
-import toast from "react-hot-toast";
+import React, { useContext } from "react";
+import { RepoContext } from "../context/repo";
 
 interface Props {
+  searchPrefix?: string;
   title?: string;
   list: Array<{
     label: string;
@@ -9,12 +10,23 @@ interface Props {
   }>;
   className?: string;
 }
-const SideBarList: React.FC<Props> = ({ title, list, className }) => {
+const SideBarList: React.FC<Props> = ({
+  title,
+  list,
+  searchPrefix,
+  className,
+}) => {
+  const { search } = useContext(RepoContext);
+
+  const handleLiClick = (label: string) => {
+    search(`#${searchPrefix ?? ""}${label}#`);
+  };
+
   const renderList = () => {
     if (list.length) {
       return list.map((item, i) => (
         <li
-          onClick={() => toast("nice")}
+          onClick={() => handleLiClick(item.label)}
           className="px-2 py-2 text-xs rounded hover:bg-primary-900/20 hover:text-primary-400 cursor-pointer flex justify-between"
           key={i}
         >
