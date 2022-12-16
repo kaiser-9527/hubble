@@ -4,6 +4,10 @@ import { UserContext } from "~/components/context/user";
 
 export default () => {
   const { user } = useContext(UserContext);
-  if (!user) return <header>sign in</header>;
-  return <div>{user && <Link to="/app">app</Link>}</div>;
+  return (
+    <div>
+      {user && <span>{user.email}</span>}
+      <Link to="/app">app</Link>
+    </div>
+  );
 };

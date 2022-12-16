@@ -2,7 +2,7 @@ import { pick } from "lodash-es";
 import { useEffect, useState } from "react";
 import { getStarredList } from "~/api/github";
 import { getSupaRepoList, getSupaTagList } from "~/api/supabase";
-import { GithubRepo, SupaRepo, SupaTag } from "~/types/repo";
+import { GithubRepo, SupaRepo, SupaRepoRespon, SupaTag } from "~/types/repo";
 import DB, { TABLE_NAME } from "~/utils/db";
 
 const githubRepoPickedKeys = [
@@ -58,6 +58,33 @@ export default (uid: string) => {
     db.set(TABLE_NAME.SUPA_TAG_LIST, list);
   };
 
+  const updateSupaRepo = (repo: SupaRepoRespon) => {
+    // update repo
+    setSupaRepoList((list) => {
+      const newRepo = {
+        id: repo.id,
+        gid: repo.gid,
+        comment: repo.comment,
+        tag_list: repo.tagList,
+      };
+
+      const newList = repo.isNewRepo
+        ? [...list, newRepo]
+        : list.map((r) => (r.id === repo.id ? newRepo : r));
+      db.set(TABLE_NAME.SUPA_REPO_LIST, newList);
+      return newList;
+    });
+
+    // update tag
+    if (repo.newTags?.length) {
+      setSupaTagList((list) => {
+        const newList = [...list, ...repo.newTags!];
+        db.set(TABLE_NAME.SUPA_TAG_LIST, newList);
+        return newList;
+      });
+    }
+  };
+
   useEffect(() => {
     // check local data
     db.get(TABLE_NAME.GH_REPO_LIST).then((res) => {
@@ -93,5 +120,7 @@ export default (uid: string) => {
     syncGhRepoList,
     syncSupaRepoList,
     syncSupaTagList,
+
+    updateSupaRepo,
   };
 };

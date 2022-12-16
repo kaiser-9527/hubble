@@ -11,7 +11,7 @@ export default () => {
   });
 
   useEffect(() => {
-    const pure = githubRepoList.length - supaRepoList.length;
+    const pure = Math.max(githubRepoList.length - supaRepoList.length, 0);
     setOverview({
       total: githubRepoList.length,
       pure,

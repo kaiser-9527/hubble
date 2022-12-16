@@ -54,3 +54,12 @@ export type MixedRepo = Pick<
   comment?: string;
   tags?: SupaTag[];
 };
+
+export interface SupaRepoRespon {
+  id: number;
+  gid: number;
+  isNewRepo: boolean;
+  comment?: string;
+  tagList?: number[];
+  newTags?: SupaTag[];
+}

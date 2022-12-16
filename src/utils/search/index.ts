@@ -1,6 +1,6 @@
 import { pick } from "lodash-es";
 import { GithubRepo, MixedRepo, SupaRepo, SupaTag } from "~/types/repo";
-import { UnknownLangLabel } from "../constans";
+import { UnknownLangLabel } from "../../constants";
 import { matchSearchType, matchVal } from "./match";
 
 const findSupaRepo = (list: SupaRepo[], gid: number) => {

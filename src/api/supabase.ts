@@ -1,4 +1,6 @@
+import { SupaRepoRespon } from "~/types/repo";
 import { supabase } from "~/utils/supabase";
+import toast from "react-hot-toast";
 
 export const signIn = () =>
   supabase.auth.signInWithOAuth({
@@ -16,12 +18,12 @@ export const getSupaTagList = async (uid: string) =>
   });
 
 // insert repo
-interface InsertRepoReq {
+export interface InsertRepoReq {
   gid: number;
   uid: string;
   comment?: string;
-  tagId?: number[];
-  tagLabel?: string[];
+  tagIds?: number[];
+  tagNames?: string[];
 }
 
 export const insertRepo = (info: InsertRepoReq) =>
@@ -31,8 +33,8 @@ export const insertRepo = (info: InsertRepoReq) =>
 interface UpdateRepoReq {
   id: number;
   commnet?: string;
-  tagId?: number[];
-  tagLabel?: string[];
+  tagIds?: number[];
+  tagNames?: string[];
 }
 export const updateRepo = (info: UpdateRepoReq) =>
   supabase.rpc("update_repo", { repo: info });

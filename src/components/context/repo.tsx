@@ -9,8 +9,14 @@ import {
 } from "react";
 import useSearch from "~/hooks/useSearch";
 import useSyncData from "~/hooks/useSyncData";
-import { GithubRepo, MixedRepo, SupaRepo, SupaTag } from "~/types/repo";
-import { UnknownLangLabel } from "~/utils/constans";
+import {
+  GithubRepo,
+  MixedRepo,
+  SupaRepo,
+  SupaRepoRespon,
+  SupaTag,
+} from "~/types/repo";
+import { UnknownLangLabel } from "~/constants";
 import SignIn from "../signIn";
 import { UserContext } from "./user";
 
@@ -27,6 +33,9 @@ export const RepoContext = createContext<{
   search: (val?: string) => void;
   searchResult: MixedRepo[];
   setSearchValue: (val: string) => void;
+
+  // data update
+  updateSupaRepo: (repo: SupaRepoRespon) => void;
 }>({
   githubRepoList: [],
   supaRepoList: [],
@@ -39,6 +48,7 @@ export const RepoContext = createContext<{
   search: (val?: string) => [],
   searchResult: [],
   setSearchValue: (val: string) => {},
+  updateSupaRepo: (repo: SupaRepoRespon) => {},
 });
 
 const RepoProvider: FC<{
@@ -50,7 +60,8 @@ const RepoProvider: FC<{
     return <SignIn />;
   }
 
-  const { githubRepoList, supaRepoList, supaTagList } = useSyncData(user.id);
+  const { githubRepoList, supaRepoList, supaTagList, updateSupaRepo } =
+    useSyncData(user.id);
   const { search, searchResult, searchValue, setSearchValue } = useSearch({
     githubRepoList,
     supaRepoList,
@@ -84,6 +95,9 @@ const RepoProvider: FC<{
         searchResult,
         searchValue,
         setSearchValue,
+
+        // data update
+        updateSupaRepo,
       }}
     >
       {children}

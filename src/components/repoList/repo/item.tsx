@@ -5,8 +5,6 @@ import CustomizeInfo from "./customizeInfo";
 const RepoItem: React.FC<{ repo: MixedRepo }> = ({ repo }) => {
   const [editable, setEditable] = useState(false);
   const {
-    comment,
-    tags,
     description,
     stargazers_count,
     forks_count,
@@ -36,7 +34,11 @@ const RepoItem: React.FC<{ repo: MixedRepo }> = ({ repo }) => {
 
       {description && <p className="text-sm text-txt-2 pb-2">{description}</p>}
 
-      <CustomizeInfo comment={comment} tags={tags} editable={editable} />
+      <CustomizeInfo
+        repo={repo}
+        editable={editable}
+        setEditable={(val: boolean) => setEditable(val)}
+      />
 
       <footer className="flex gap-4 text-txt-3 text-xs border-t border-dashed border-bd-1 pt-2">
         {/* TODO icons */}
