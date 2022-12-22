@@ -42,7 +42,6 @@ const SearchBar = () => {
 
   return (
     <div className="border-2 border-bd-2 transition p-4 rounded-lg focus-within:border-primary-500">
-      {/* TODO search icon */}
       <input
         className="w-full bg-transparent  text-txt-1  focus:outline-0"
         type="text"

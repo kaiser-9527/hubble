@@ -142,11 +142,8 @@ export default ({ repo, editable, setEditable }: Props) => {
                   key={tag.id}
                 >
                   {tag.name}{" "}
-                  <i
-                    onClick={() => handleDelTag(index)}
-                    className="bg-rose-500 cursor-pointer text-white rounded-r-lg px-2 text-center block"
-                  >
-                    x
+                  <i onClick={() => handleDelTag(index)}>
+                    <i className="i-tabler-playstation-x"></i>
                   </i>
                 </span>
               ))}
@@ -161,7 +158,7 @@ export default ({ repo, editable, setEditable }: Props) => {
                     tagInputVisible ? "rotate-45" : ""
                   }`}
                 >
-                  +
+                  <i className="i-tabler-plus"></i>
                 </button>
               </div>
             </div>

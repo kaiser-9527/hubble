@@ -7,6 +7,7 @@ interface Props {
   showCounts?: boolean;
   list: Array<{
     label: string;
+    icon?: string;
     extral?: React.ReactNode;
   }>;
   className?: string;
@@ -32,7 +33,10 @@ const SideBarList: React.FC<Props> = ({
           className="px-2 py-2 text-xs rounded hover:bg-primary-900/20 hover:text-primary-400 cursor-pointer flex justify-between"
           key={i}
         >
-          <span>{item.label}</span>
+          <span>
+            <span>{item.icon}</span>
+            {item.label}
+          </span>
           {item.extral && <span>{item.extral}</span>}
         </li>
       ));

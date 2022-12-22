@@ -5,7 +5,22 @@ import { presetScrollbar } from "unocss-preset-scrollbar";
 
 export default defineConfig({
   presets: [
-    presetIcons(),
+    presetIcons({
+      extraProperties: {
+        display: "inline-block",
+        "vertical-align": "middle",
+      },
+      collections: {
+        "line-md": () =>
+          import("@iconify-json/line-md/icons.json").then(
+            (i) => i.default as any
+          ),
+        tabler: () =>
+          import("@iconify-json/tabler/icons.json").then(
+            (i) => i.default as any
+          ),
+      },
+    }),
     presetUno(),
     presetScrollbar({
       scrollbarWidth: "4px",

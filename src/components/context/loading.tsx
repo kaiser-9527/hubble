@@ -20,8 +20,7 @@ const LoadingProvider: FC<{
   return (
     <LoadingContext.Provider value={{ loading }}>
       <div className="fixed top-0 right-0 h-10 w-10 flex justify-center items-center pointer-events-none">
-        {/* TODO icon */}
-        {loadingCount > 0 && <span>o</span>}
+        {loadingCount > 0 && <i className="i-line-md-loading-twotone-loop" />}
       </div>
       {children}
     </LoadingContext.Provider>

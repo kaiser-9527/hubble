@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter as Router, useRoutes } from "react-router-dom";
-import "@unocss/reset/tailwind.css";
+import "~/styles/reset.css";
 import "uno.css";
 import routes from "~react-pages";
 import UserProvider from "./components/context/user";

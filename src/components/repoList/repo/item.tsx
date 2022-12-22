@@ -28,7 +28,7 @@ const RepoItem: React.FC<{ repo: MixedRepo }> = ({ repo }) => {
           className="hover:text-primary-500"
         >
           {repo.full_name}
-          {/* TODO icon */}
+          <i className="i-tabler-arrow-up-right"></i>
         </a>
       </h4>
 
@@ -41,10 +41,19 @@ const RepoItem: React.FC<{ repo: MixedRepo }> = ({ repo }) => {
       />
 
       <footer className="flex gap-4 text-txt-3 text-xs border-t border-dashed border-bd-1 pt-2">
-        {/* TODO icons */}
-        <span>{stargazers_count}</span>
-        <span>{forks_count}</span>
-        <span>{watchers_count}</span>
+        <span>
+          <i className="i-tabler-star"></i>
+
+          {stargazers_count}
+        </span>
+        <span>
+          <i className="i-tabler-git-fork"></i>
+          {forks_count}
+        </span>
+        <span>
+          <i className="i-tabler-eye"></i>
+          {watchers_count}
+        </span>
 
         {language && <span>{language}</span>}
       </footer>

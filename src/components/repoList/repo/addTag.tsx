@@ -35,7 +35,7 @@ export default function AddTag({
           onChange={(event) => setQuery(event.target.value)}
         />
         <Combobox.Button className="absolute inset-y-0 right-0 flex items-center px-2 ">
-          ;{/* TODO icon arrow */}
+          <i className="i-tabler-separator-horizontal"></i>
         </Combobox.Button>
         <Transition
           as={Fragment}
@@ -81,7 +81,7 @@ export default function AddTag({
                       <span
                         className={active ? "text-white" : "text-primary-500"}
                       >
-                        o{/* TODO icon */}
+                        <i className="i-tabler-check"></i>?
                       </span>
                     ) : null}
                   </>
