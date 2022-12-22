@@ -4,6 +4,7 @@ import { RepoContext } from "../context/repo";
 interface Props {
   searchPrefix?: string;
   title?: string;
+  showCounts?: boolean;
   list: Array<{
     label: string;
     extral?: React.ReactNode;
@@ -15,6 +16,7 @@ const SideBarList: React.FC<Props> = ({
   list,
   searchPrefix,
   className,
+  showCounts,
 }) => {
   const { search } = useContext(RepoContext);
 
@@ -40,7 +42,14 @@ const SideBarList: React.FC<Props> = ({
   };
   return (
     <div className={`flex flex-col overflow-hidden box ${className}`}>
-      {title && <h5 className="mb-4 text-txt-2">{title}</h5>}
+      {title && (
+        <h5 className="mb-4 text-txt-2">
+          {title}
+          {showCounts && (
+            <span className="text-sm ml-1 text-txt-3">({list.length})</span>
+          )}
+        </h5>
+      )}
       <ul className="flex-1 overflow-y-auto scroll-bar">{renderList()}</ul>
     </div>
   );

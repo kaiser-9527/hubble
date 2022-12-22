@@ -15,7 +15,12 @@ const TagList = () => {
   );
 
   return (
-    <SideBarList title="Tags" searchPrefix="tag:" list={tagList}></SideBarList>
+    <SideBarList
+      showCounts
+      title="Tags"
+      searchPrefix="tag:"
+      list={tagList}
+    ></SideBarList>
   );
 };
 
