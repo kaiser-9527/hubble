@@ -22,11 +22,11 @@ export default () => {
           Try it now
         </Link>
       </div>
-      <div className="border-red-500 mt-10 bg-red-100">
+      <div className=" mt-10 ">
         <img
           src="/images/screen-shot.png"
           alt="hubble screen shot"
-          className="mx-auto"
+          className="mx-auto border-bd-1 rounded-lg shadow border"
         />
       </div>
     </main>
