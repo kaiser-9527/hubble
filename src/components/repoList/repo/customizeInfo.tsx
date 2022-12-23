@@ -39,7 +39,9 @@ export default ({ repo, editable, setEditable }: Props) => {
   };
 
   const handleTagSelectChange = (tag: SupaTag) => {
-    setTagList((list) => [...list, tag]);
+    const hasExists = tagList.some((t) => t.name === tag.name);
+    if (!hasExists) setTagList((list) => [...list, tag]);
+    else toast.error(`repo has already added the tag:${tag.name}`);
   };
 
   const toggleTagInput = () => {
@@ -81,8 +83,7 @@ export default ({ repo, editable, setEditable }: Props) => {
       loading(false);
       if (error || !data) {
         // 更新失败
-        setOptimisticComment(comment ?? "");
-        setOptimisticTagList(tags ?? []);
+        resetData();
         toast.error("update repo fail.");
         return;
       }
@@ -96,13 +97,20 @@ export default ({ repo, editable, setEditable }: Props) => {
       loading(false);
       if (error || !data) {
         // 更新失败
-        setOptimisticComment(comment ?? "");
-        setOptimisticTagList(tags ?? []);
+        resetData();
         toast.error("insert repo fail.");
         return;
       }
       updateSupaRepo(data as unknown as SupaRepoRespon);
     }
+  };
+
+  const resetData = () => {
+    setOptimisticComment(comment ?? "");
+    setOptimisticTagList(tags ?? []);
+
+    setCommentValue(comment ?? "");
+    setTagList(tags ?? []);
   };
   return (
     <>

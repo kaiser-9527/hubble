@@ -11,7 +11,8 @@ export default function AddTag({
   const [selected, setSelected] = useState<SupaTag | null>(null);
   const [query, setQuery] = useState("");
   const { supaTagList } = useContext(RepoContext);
-  const filteredPeople =
+
+  const filteredTag =
     query === ""
       ? supaTagList
       : supaTagList.filter((tag) =>
@@ -20,6 +21,17 @@ export default function AddTag({
             .replace(/\s+/g, "")
             .includes(query.toLowerCase().replace(/\s+/g, ""))
         );
+
+  const sortedTagList = filteredTag.sort((a) => {
+    if (a.name === query) {
+      return -1;
+    }
+    return 1;
+  });
+
+  const hasWholeMatching = sortedTagList.some(
+    (tag) => tag.name.toLowerCase() === query.toLocaleLowerCase()
+  );
 
   const handleSelectedChange = (val: SupaTag) => {
     setSelected(null);
@@ -45,7 +57,7 @@ export default function AddTag({
           afterLeave={() => setQuery("")}
         >
           <Combobox.Options className="absolute mt-1 max-h-60 border border-bd-2 text-txt-2 w-50 overflow-auto rounded-md bg-base-elevated py-1 z-1 scroll-bar">
-            {query.length > 0 && (
+            {query.length > 0 && !hasWholeMatching && (
               <Combobox.Option
                 value={{ id: `f-${Date.now()}`, name: query }}
                 className={({ active }) =>
@@ -58,7 +70,7 @@ export default function AddTag({
               </Combobox.Option>
             )}
 
-            {filteredPeople.map((tag) => (
+            {sortedTagList.map((tag) => (
               <Combobox.Option
                 key={tag.id}
                 className={({ active }) =>
