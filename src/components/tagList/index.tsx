@@ -3,20 +3,32 @@ import { RepoContext } from "../context/repo";
 import SideBarList from "../sideBar/list";
 
 const TagList = () => {
-  const { supaTagList } = useContext(RepoContext);
+  const { supaTagList, supaRepoList } = useContext(RepoContext);
 
-  const tagList = useMemo(
-    () =>
-      supaTagList.map((tag) => ({
-        label: tag.name,
-        id: tag.id,
-      })),
-    [supaTagList]
-  );
+  const tagList = useMemo(() => {
+    const tagMap: Record<string, number> = {};
+    supaRepoList.forEach((repo) => {
+      if (repo.tag_list?.length) {
+        repo.tag_list.forEach((tagId) => {
+          if (!tagMap[tagId]) {
+            tagMap[tagId] = 0;
+          }
+          tagMap[tagId] += 1;
+        });
+      }
+    });
+
+    return supaTagList.map((tag) => ({
+      label: tag.name,
+      id: tag.id,
+      extral: tagMap[tag.id] ?? 0,
+    }));
+  }, [supaTagList, supaRepoList]);
 
   return (
     <SideBarList
       showCounts
+      hideEmpty
       title="Tags"
       searchPrefix="tag:"
       list={tagList}

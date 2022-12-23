@@ -7,7 +7,15 @@ import routes from "~react-pages";
 import UserProvider from "./components/context/user";
 
 const App = () => {
-  return <Suspense fallback={<p>Loading...</p>}>{useRoutes(routes)}</Suspense>;
+  return (
+    <Suspense
+      fallback={
+        <div className="flex items-center justify-center">loading...</div>
+      }
+    >
+      {useRoutes(routes)}
+    </Suspense>
+  );
 };
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(

@@ -36,12 +36,17 @@ export const RepoContext = createContext<{
 
   // data update
   updateSupaRepo: (repo: SupaRepoRespon) => void;
+
+  // forceSyncAll
+  forceSyncAll: () => void;
 }>({
   githubRepoList: [],
   supaRepoList: [],
   supaTagList: [],
 
   languageMap: {},
+
+  forceSyncAll: () => {},
 
   // search
   searchValue: "",
@@ -60,8 +65,15 @@ const RepoProvider: FC<{
     return <SignIn />;
   }
 
-  const { githubRepoList, supaRepoList, supaTagList, updateSupaRepo } =
-    useSyncData(user.id);
+  const {
+    githubRepoList,
+    supaRepoList,
+    supaTagList,
+    updateSupaRepo,
+    syncGhRepoList,
+    syncSupaRepoList,
+    syncSupaTagList,
+  } = useSyncData(user.id);
   const { search, searchResult, searchValue, setSearchValue } = useSearch({
     githubRepoList,
     supaRepoList,
@@ -80,6 +92,13 @@ const RepoProvider: FC<{
     return langMap;
   }, [githubRepoList]);
 
+  const forceSyncAll = () =>
+    Promise.allSettled([
+      syncGhRepoList(),
+      syncSupaRepoList(),
+      syncSupaTagList(),
+    ]);
+
   return (
     <RepoContext.Provider
       value={{
@@ -89,6 +108,8 @@ const RepoProvider: FC<{
 
         //overview
         languageMap,
+
+        forceSyncAll,
 
         // search
         search,

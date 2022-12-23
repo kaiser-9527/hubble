@@ -5,6 +5,7 @@ interface Props {
   searchPrefix?: string;
   title?: string;
   showCounts?: boolean;
+  hideEmpty?: boolean;
   list: Array<{
     label: string;
     icon?: string;
@@ -16,6 +17,7 @@ const SideBarList: React.FC<Props> = ({
   title,
   list,
   searchPrefix,
+  hideEmpty,
   className,
   showCounts,
 }) => {
@@ -27,19 +29,22 @@ const SideBarList: React.FC<Props> = ({
 
   const renderList = () => {
     if (list.length) {
-      return list.map((item, i) => (
-        <li
-          onClick={() => handleLiClick(item.label)}
-          className="px-2 py-2 text-xs rounded hover:bg-primary-900/20 hover:text-primary-400 cursor-pointer flex justify-between"
-          key={i}
-        >
-          <span>
-            <span>{item.icon}</span>
-            {item.label}
-          </span>
-          {item.extral && <span>{item.extral}</span>}
-        </li>
-      ));
+      return list.map((item, i) => {
+        if (hideEmpty && item.extral === 0) return null;
+        return (
+          <li
+            onClick={() => handleLiClick(item.label)}
+            className="px-2 py-2 text-xs rounded hover:bg-primary-900/20 hover:text-primary-400 cursor-pointer flex justify-between"
+            key={i}
+          >
+            <span>
+              <span>{item.icon}</span>
+              {item.label}
+            </span>
+            {item.extral && <span>{item.extral}</span>}
+          </li>
+        );
+      });
     }
 
     return <li className="text-txt-4 text-sm">Empty</li>;

@@ -25,10 +25,10 @@ const RepoItem: React.FC<{ repo: MixedRepo }> = ({ repo }) => {
         <a
           href={repo.html_url}
           target="_blank"
-          className="hover:text-primary-500"
+          className="hover:text-primary-500 font-bold"
         >
           {repo.full_name}
-          <i className="i-tabler-arrow-up-right"></i>
+          <i className="i-tabler-arrow-up-right ml-1 text-primary-300"></i>
         </a>
       </h4>
 

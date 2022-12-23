@@ -9,7 +9,7 @@ export const getStarredList = async (
   const data = await githubRequest<GithubRepo[]>(
     `/user/starred?page=${page}&per_page=100`
   ).catch((error) => {
-    toast.error("github repos sync fail.");
+    toast.error("github repos sync fail:  " + error.message);
   });
 
   const res = data ?? [];

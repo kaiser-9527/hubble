@@ -1,4 +1,3 @@
-import toast from "react-hot-toast";
 import { supabase } from "./supabase";
 
 const baseUrl = "https://api.github.com";
@@ -9,7 +8,10 @@ export default async <T>(
 ) => {
   const { data } = await supabase.auth.getSession();
   if (!data.session?.provider_token) {
-    toast.error("Please signin.");
+    supabase.auth.setSession({
+      access_token: "",
+      refresh_token: "",
+    });
     return Promise.reject(new Error("Please signin"));
   }
 

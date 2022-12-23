@@ -13,6 +13,8 @@ const UserProvider: FC<{
 
   useEffect(() => {
     getSupabaseUser((user) => {
+      console.log(user);
+
       setUser(user);
     });
   }, []);

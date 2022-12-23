@@ -5,9 +5,16 @@ import { UserContext } from "~/components/context/user";
 export default () => {
   const { user } = useContext(UserContext);
   return (
-    <div>
-      {user && <span>{user.email}</span>}
-      <Link to="/app">app</Link>
-    </div>
+    <header>
+      {user && (
+        <Link to="/app">
+          <img
+            className="h-10 w-10 rounded-full"
+            src={user.user_metadata.avatar_url}
+            alt={user.email}
+          />
+        </Link>
+      )}
+    </header>
   );
 };
