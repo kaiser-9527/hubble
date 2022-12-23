@@ -8,9 +8,8 @@ export default async <T>(
 ) => {
   const { data } = await supabase.auth.getSession();
   if (!data.session?.provider_token) {
-    supabase.auth.setSession({
-      access_token: "",
-      refresh_token: "",
+    supabase.auth.signInWithOAuth({
+      provider: "github",
     });
     return Promise.reject(new Error("Please signin"));
   }
