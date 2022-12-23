@@ -50,8 +50,6 @@ export default (value: string, source: MixedRepo[]) => {
   valList.forEach((val) => {
     const valType = matchSearchType(val);
     switch (valType.type) {
-      case "all":
-        break;
       case "pure":
         result = result.filter((repo) => !repo.comment && !repo.tags);
         break;

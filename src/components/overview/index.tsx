@@ -8,10 +8,12 @@ const OverView = () => {
     return [
       {
         label: "All",
+        searchKeyword: "",
         extral: overview.total,
       },
       {
         label: "Pure",
+        searchKeyword: "pure:",
         extral: overview.pure,
       },
     ];

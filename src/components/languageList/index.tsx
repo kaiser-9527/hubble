@@ -8,16 +8,11 @@ const LanguageList = () => {
   const list = useMemo(() => {
     return Object.keys(languageMap).map((key) => ({
       label: key,
+      searchKeyword: `lang:${key}`,
       extral: languageMap[key].length,
     }));
   }, [languageMap]);
-  return (
-    <SideBarList
-      title="Languages"
-      searchPrefix="lang:"
-      list={list}
-    ></SideBarList>
-  );
+  return <SideBarList title="Languages" list={list}></SideBarList>;
 };
 
 export default LanguageList;

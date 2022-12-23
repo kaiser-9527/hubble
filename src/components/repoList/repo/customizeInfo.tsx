@@ -105,6 +105,11 @@ export default ({ repo, editable, setEditable }: Props) => {
     }
   };
 
+  const handleCancel = () => {
+    resetData();
+    setEditable(false);
+  };
+
   const resetData = () => {
     setOptimisticComment(comment ?? "");
     setOptimisticTagList(tags ?? []);
@@ -123,7 +128,7 @@ export default ({ repo, editable, setEditable }: Props) => {
       {optimisticTagList && !editable && (
         <div className="flex gap-1 text-sm text-txt-2 pb-2">
           {optimisticTagList.map((tag) => (
-            <span className="bg-fill-3 px-1 rounded text-txt-2" key={tag.id}>
+            <span className="bg-fill-2 px-1 rounded text-txt-2" key={tag.id}>
               {tag.name}
             </span>
           ))}
@@ -131,7 +136,7 @@ export default ({ repo, editable, setEditable }: Props) => {
       )}
 
       {editable && (
-        <div className="border-2 rounded p-4 rounded-lg border-primary-500  border-bd-1">
+        <div className="border border-dashed rounded p-4 rounded-lg border-primary-700  border-bd-1 mb-1">
           <div className="flex gap-2 items-center">
             <span className="block w-20 text-right">Comment:</span>
             <textarea
@@ -142,17 +147,18 @@ export default ({ repo, editable, setEditable }: Props) => {
           </div>
 
           <div className="flex gap-2 items-center mt-2">
-            <span className="block w-20 text-right">Tags:</span>
+            <span className="block shrink-0 w-20 text-right">Tags:</span>
             <div className="flex gap-2 flex-wrap">
               {tagList?.map((tag, index) => (
                 <span
-                  className="pl-1  bg-primary-50 text-primary-900 rounded-lg flex items-cente gap-2 "
+                  className="px-1  bg-fill-1 text-primary-50 rounded-lg flex items-center gap-2 "
                   key={tag.id}
                 >
-                  {tag.name}{" "}
-                  <i onClick={() => handleDelTag(index)}>
-                    <i className="i-tabler-playstation-x"></i>
-                  </i>
+                  {tag.name}
+                  <i
+                    onClick={() => handleDelTag(index)}
+                    className="hover:text-rose-300 i-tabler-playstation-x"
+                  ></i>
                 </span>
               ))}
 
@@ -162,7 +168,7 @@ export default ({ repo, editable, setEditable }: Props) => {
                 )}
                 <button
                   onClick={() => toggleTagInput()}
-                  className={`h-6 w-6 transition-transform duration-500 bg-primary-50 text-primary-900 rounded-full justify-center flex items-center ${
+                  className={`h-6 w-6 transition-transform duration-500 bg-primary-50 text-primary-900 ml-1 rounded-full justify-center flex items-center ${
                     tagInputVisible ? "rotate-45" : ""
                   }`}
                 >
@@ -172,8 +178,10 @@ export default ({ repo, editable, setEditable }: Props) => {
             </div>
           </div>
 
-          <div className="flex justify-end gap-2">
-            <button className="btn ">cancel</button>
+          <div className="flex justify-end gap-2 mt-2">
+            <button className="btn" onClick={() => handleCancel()}>
+              cancel
+            </button>
             <button className="btn btn-primary" onClick={() => handleSubmit()}>
               save
             </button>

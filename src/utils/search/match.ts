@@ -1,9 +1,8 @@
 const SearchTypeRex = [
-  { type: "pure", regexp: /#Pure#/ },
-  { type: "all", regexp: /#All#/ },
-  { type: "lang", regexp: /#lang:(\S+)#/ },
-  { type: "tag", regexp: /#tag:(\S+)#/ },
-  { type: "comment", regexp: /#comment:(\S+)#/ },
+  { type: "pure", regexp: /pure:/ },
+  { type: "lang", regexp: /lang:(\S+)/ },
+  { type: "tag", regexp: /tag:(\S+)/ },
+  { type: "comment", regexp: /comment:(\S+)/ },
 ];
 
 export const matchSearchType = (val: string) => {

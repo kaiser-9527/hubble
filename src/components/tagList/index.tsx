@@ -21,6 +21,7 @@ const TagList = () => {
     return supaTagList.map((tag) => ({
       label: tag.name,
       id: tag.id,
+      searchKeyword: `tag:${tag.name}`,
       extral: tagMap[tag.id] ?? 0,
     }));
   }, [supaTagList, supaRepoList]);
@@ -37,5 +38,3 @@ const TagList = () => {
 };
 
 export default TagList;
-
-// 964a02cc-577e-4136-b9d4-e5133cd26021

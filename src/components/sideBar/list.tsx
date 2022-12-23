@@ -1,16 +1,19 @@
 import React, { useContext } from "react";
 import { RepoContext } from "../context/repo";
 
+interface Item {
+  label: string;
+  icon?: string;
+  searchKeyword?: string;
+  extral?: React.ReactNode;
+}
+
 interface Props {
-  searchPrefix?: string;
   title?: string;
   showCounts?: boolean;
+  list: Array<Item>;
+  searchPrefix?: string;
   hideEmpty?: boolean;
-  list: Array<{
-    label: string;
-    icon?: string;
-    extral?: React.ReactNode;
-  }>;
   className?: string;
 }
 const SideBarList: React.FC<Props> = ({
@@ -23,8 +26,8 @@ const SideBarList: React.FC<Props> = ({
 }) => {
   const { search } = useContext(RepoContext);
 
-  const handleLiClick = (label: string) => {
-    search(`#${searchPrefix ?? ""}${label}#`);
+  const handleLiClick = (item: Item) => {
+    search(item.searchKeyword ?? item.label);
   };
 
   const renderList = () => {
@@ -33,12 +36,12 @@ const SideBarList: React.FC<Props> = ({
         if (hideEmpty && item.extral === 0) return null;
         return (
           <li
-            onClick={() => handleLiClick(item.label)}
-            className="px-2 py-2 text-sm  hover:bg-primary-900/20 hover:text-primary-400 cursor-pointer flex justify-between"
+            onClick={() => handleLiClick(item)}
+            className="px-2 py-2 text-sm  hover:bg-primary-900/20 hover:text-primary-400 cursor-pointer rounded-lg flex justify-between"
             key={i}
           >
             <span>
-              <span>{item.icon}</span>
+              {item.icon && <i className={item.icon}></i>}
               {item.label}
             </span>
             {item.extral && <span>{item.extral}</span>}
