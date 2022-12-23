@@ -3,7 +3,6 @@ import OverView from "~/components/overview";
 import SideBar from "~/components/sideBar";
 import TagList from "~/components/tagList";
 import UserInfo from "~/components/userInfo";
-import "~/styles/app.css";
 import Toaster from "~/components/toaster";
 import RepoList from "~/components/repoList";
 import RepoProvider from "~/components/context/repo";

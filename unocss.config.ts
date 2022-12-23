@@ -1,4 +1,4 @@
-import { defineConfig, presetIcons, presetUno } from "unocss";
+import { defineConfig, presetIcons, presetUno, presetWebFonts } from "unocss";
 import transformerDirectives from "@unocss/transformer-directives";
 import { colors } from "@unocss/preset-mini";
 import { presetScrollbar } from "unocss-preset-scrollbar";
@@ -26,6 +26,12 @@ export default defineConfig({
       scrollbarWidth: "4px",
       scrollbarTrackColor: "transparent",
       scrollbarThumbColor: "#424242",
+    }),
+    presetWebFonts({
+      provider: "google",
+      fonts: {
+        sans: "Roboto Condensed",
+      },
     }),
   ],
   transformers: [transformerDirectives()],
