@@ -6,7 +6,9 @@ export default () => {
   };
   return (
     <div className="h-screen w-screen flex justify-center items-center">
-      <button onClick={handleSignIn}>login wite github</button>
+      <button onClick={handleSignIn} className="btn">
+        sign in with github
+      </button>
     </div>
   );
 };

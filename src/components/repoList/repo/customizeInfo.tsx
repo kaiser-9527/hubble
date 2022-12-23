@@ -115,13 +115,13 @@ export default ({ repo, editable, setEditable }: Props) => {
   return (
     <>
       {optimisticComment && !editable && (
-        <p className="text-xs text-txt-3 pb-2 font-italic">
+        <p className="text-sm text-txt-3 pb-2 font-italic">
           {optimisticComment}
         </p>
       )}
 
       {optimisticTagList && !editable && (
-        <div className="flex gap-1 text-xs text-txt-2 pb-2">
+        <div className="flex gap-1 text-sm text-txt-2 pb-2">
           {optimisticTagList.map((tag) => (
             <span className="bg-fill-3 px-1 rounded text-txt-2" key={tag.id}>
               {tag.name}

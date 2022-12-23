@@ -16,7 +16,7 @@ const RepoItem: React.FC<{ repo: MixedRepo }> = ({ repo }) => {
     <li className="box relative group">
       <button
         onClick={() => setEditable((e) => !e)}
-        className="absolute top-4 right-4 text-xs text-txt-4 focus:block group-hover:block hidden"
+        className="absolute top-4 right-4 text-sm text-txt-4 focus:block group-hover:block hidden"
       >
         Edit
       </button>
@@ -40,7 +40,7 @@ const RepoItem: React.FC<{ repo: MixedRepo }> = ({ repo }) => {
         setEditable={(val: boolean) => setEditable(val)}
       />
 
-      <footer className="flex gap-4 text-txt-3 text-xs border-t border-dashed border-bd-1 pt-2">
+      <footer className="flex gap-4 text-txt-3 text-sm border-t border-dashed border-bd-1 pt-2">
         <span>
           <i className="i-tabler-star"></i>
 

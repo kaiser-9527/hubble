@@ -34,7 +34,7 @@ const SideBarList: React.FC<Props> = ({
         return (
           <li
             onClick={() => handleLiClick(item.label)}
-            className="px-2 py-2 text-xs rounded hover:bg-primary-900/20 hover:text-primary-400 cursor-pointer flex justify-between"
+            className="px-2 py-2 text-sm  hover:bg-primary-900/20 hover:text-primary-400 cursor-pointer flex justify-between"
             key={i}
           >
             <span>
