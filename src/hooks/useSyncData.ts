@@ -68,9 +68,10 @@ export default (uid: string) => {
         tag_list: repo.tagList,
       };
 
-      const newList = repo.isNewRepo
-        ? [...list, newRepo]
-        : list.map((r) => (r.id === repo.id ? newRepo : r));
+      const hasOldRepo = list.some((r) => r.id === repo.id);
+      const newList = hasOldRepo
+        ? list.map((r) => (r.id === repo.id ? newRepo : r))
+        : [...list, newRepo];
       db.set(TABLE_NAME.SUPA_REPO_LIST, newList);
       return newList;
     });
