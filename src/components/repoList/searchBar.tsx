@@ -1,15 +1,18 @@
-import {
-  useState,
-  KeyboardEvent as ReactKeyboardEvent,
-  useContext,
-  useEffect,
-  useRef,
-} from "react";
+import { KeyboardEvent as ReactKeyboardEvent, useContext, useRef } from "react";
 import { RepoContext } from "../context/repo";
+import { useHotkeys } from "react-hotkeys-hook";
+import { isMac } from "~/utils/helpers";
 
 const SearchBar = () => {
   const { search, searchValue, setSearchValue } = useContext(RepoContext);
   const inputRef = useRef<HTMLInputElement | null>(null);
+
+  const hotKeyHint = isMac() ? "⌘ k" : "ctrl k";
+
+  // focus to the input
+  useHotkeys("meta+k,ctrl+k", () => {
+    inputRef.current?.focus();
+  });
 
   // do search
   const handleInputKeydow = (e: ReactKeyboardEvent<HTMLElement>) => {
@@ -24,33 +27,20 @@ const SearchBar = () => {
     }
   };
 
-  // keyboard event
-  const handleCK = (e: KeyboardEvent) => {
-    if (e.key === "k" && e.ctrlKey) {
-      inputRef.current?.focus();
-      e.stopPropagation();
-      e.preventDefault();
-    }
-  };
-
-  useEffect(() => {
-    document.addEventListener("keydown", handleCK);
-    return () => {
-      document.removeEventListener("keydown", handleCK);
-    };
-  }, []);
-
   return (
-    <div className="border-2 border-bd-2 transition p-4 rounded-lg focus-within:border-primary-500">
+    <div className="border-2 border-bd-2 transition p-4 rounded-lg relative focus-within:border-primary-500">
       <input
         className="w-full bg-transparent  text-txt-1  focus:outline-0"
         type="text"
         ref={inputRef}
+        placeholder="search"
         value={searchValue}
-        placeholder="CMD K"
         onKeyDown={handleInputKeydow}
         onChange={(e) => setSearchValue(e.target.value)}
       />
+      <kbd className="absolute  rounded-lg text-txt-3 right-1 top-0 bottom-0 m-auto px-1 h-7 leading-7 pointer-events-none">
+        {hotKeyHint}
+      </kbd>
     </div>
   );
 };

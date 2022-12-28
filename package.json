@@ -16,7 +16,8 @@
     "lodash-es": "^4.17.21",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-hot-toast": "^2.4.0"
+    "react-hot-toast": "^2.4.0",
+    "react-hotkeys-hook": "^4.3.2"
   },
   "devDependencies": {
     "@iconify-json/line-md": "^1.1.20",

@@ -19,6 +19,7 @@ specifiers:
   react: ^18.2.0
   react-dom: ^18.2.0
   react-hot-toast: ^2.4.0
+  react-hotkeys-hook: ^4.3.2
   react-router: ^6.4.5
   react-router-dom: ^6.4.5
   typescript: ^4.6.4
@@ -36,6 +37,7 @@ dependencies:
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
   react-hot-toast: 2.4.0_biqbaboplfbrettd7655fr4n2y
+  react-hotkeys-hook: 4.3.2_biqbaboplfbrettd7655fr4n2y
 
 devDependencies:
   '@iconify-json/line-md': 1.1.20
@@ -1884,6 +1886,16 @@ packages:
       react-dom: 18.2.0_react@18.2.0
     transitivePeerDependencies:
       - csstype
+    dev: false
+
+  /react-hotkeys-hook/4.3.2_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-ZA/li3kBDHuRTtJIf7Td41UU87bPtnt9xV4r+PlEzpnFoYRDVspk3B+mlaX75zowyQygMVmoaWnM4B88lkyExQ==}
+    peerDependencies:
+      react: '>=16.8.1'
+      react-dom: '>=16.8.1'
+    dependencies:
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
     dev: false
 
   /react-refresh/0.14.0:
