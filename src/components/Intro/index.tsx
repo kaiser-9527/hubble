@@ -15,12 +15,26 @@ export default () => {
         <h3 className="px-0 mb-6 text-lg text-color-100 md:text-2xl lg:px-24">
           Add tags and comment for each repo to find it easier
         </h3>
-        <Link
-          to="/app"
-          className="inline-block rounded-full  hover:bg-primary-600 px-10 h-15 text-xl leading-15 bg-primary-500"
-        >
-          Try it now
-        </Link>
+        <div className="flex-center gap-2">
+          <Link
+            to="/app"
+            className="inline-block rounded-lg  hover:bg-primary-600 px-10 h-54px text-xl leading-54px bg-primary-500"
+          >
+            Try it now
+          </Link>
+          <a
+            href="https://www.producthunt.com/posts/hubble-8?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-hubble&#0045;8"
+            target="_blank"
+          >
+            <img
+              src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=372705&theme=neutral"
+              alt="Hubble - Github&#0032;stars&#0032;management&#0032;tool | Product Hunt"
+              className="w-250px h-54px"
+              width="250"
+              height="54"
+            />
+          </a>
+        </div>
       </div>
       <div className=" mt-10 ">
         <img
