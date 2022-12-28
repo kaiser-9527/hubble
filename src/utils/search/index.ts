@@ -54,15 +54,15 @@ export default (value: string, source: MixedRepo[]) => {
         break;
       case "lang":
         result = result.filter((repo) => {
-          if (valType.value === UnknownLangLabel) {
+          if (matchVal(valType.value, UnknownLangLabel)) {
             return !repo.language;
           }
-          return repo.language === valType.value;
+          return matchVal(valType.value, repo.language);
         });
         break;
       case "tag":
         result = result.filter((repo) =>
-          repo.tags?.some((tag) => tag.name === valType.value)
+          repo.tags?.some((tag) => matchVal(tag.name, valType.value))
         );
         break;
       case "comment":
