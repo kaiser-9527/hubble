@@ -34,7 +34,6 @@ export const mixRepos = ({
         "stargazers_count",
         "full_name",
         "html_url",
-        "owner",
       ]),
       gid: ghRepo.id,
       sid: supaRepo?.id,

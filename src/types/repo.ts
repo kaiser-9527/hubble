@@ -23,12 +23,6 @@ export interface GithubRepo {
   id: number;
   language: string;
   name: string;
-  owner: {
-    id: string;
-    login: string;
-    avatar_url: string;
-    html_url: string;
-  };
   html_url: string;
   stargazers_count: number;
   topics: string[];
@@ -47,7 +41,6 @@ export type MixedRepo = Pick<
   | "stargazers_count"
   | "full_name"
   | "html_url"
-  | "owner"
 > & {
   gid: number;
   sid?: number;

@@ -31,13 +31,7 @@ export default (uid: string) => {
   const syncGhRepoList = async () => {
     const res = await getStarredList();
     const data = res.map((repo) => ({
-      ...pick(repo, githubRepoPickedKeys),
-      owner: {
-        avatar_url: repo.owner.avatar_url,
-        html_url: repo.owner.html_url,
-        id: repo.owner.id,
-        login: repo.owner.login,
-      },
+      ...pick(repo, githubRepoPickedKeys)
     }));
 
     setGithubRepoList(data as GithubRepo[]);
