@@ -1,7 +1,7 @@
 const SearchTypeRex = [
   { type: "pure", regexp: /pure:/i },
   { type: "lang", regexp: /lang:(\S+)/i },
-  { type: "tag", regexp: /tag:(\S+)/i },
+  { type: "tag", regexp: /tag:(.+)/i },
   { type: "comment", regexp: /comment:(\S+)/i },
 ];
 
@@ -11,7 +11,7 @@ export const matchSearchType = (val: string) => {
     const matchResult = val.match(item.regexp);
     if (matchResult) {
       result.type = item.type;
-      result.value = matchResult[1]?.replace(/^"|"$/g, "");
+      result.value = matchResult[1]
       return true;
     }
   });

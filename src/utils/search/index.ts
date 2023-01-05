@@ -44,9 +44,18 @@ export const mixRepos = ({
 };
 
 export default (value: string, source: MixedRepo[]) => {
-  const valList = value.split(" ").filter(Boolean);
+  // pick tag
+  const tagList: string[] = [];
+  const valList = value
+    .replace(/tag:\".+\"/, (match) => {
+      tagList.push(match.replaceAll('"', ""));
+      return "";
+    })
+    .split(" ")
+    .filter(Boolean);
+
   let result: MixedRepo[] = source;
-  valList.forEach((val) => {
+  [...tagList, ...valList].forEach((val) => {
     const valType = matchSearchType(val);
     switch (valType.type) {
       case "pure":
