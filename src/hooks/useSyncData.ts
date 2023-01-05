@@ -1,7 +1,8 @@
 import { pick } from "lodash-es";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { getStarredList } from "~/api/github";
 import { getSupaRepoList, getSupaTagList } from "~/api/supabase";
+import { LoadingContext } from "~/components/context/loading";
 import { GithubRepo, SupaRepo, SupaRepoRespon, SupaTag } from "~/types/repo";
 import DB, { TABLE_NAME } from "~/utils/db";
 
@@ -25,11 +26,14 @@ export default (uid: string) => {
   const [githubRepoList, setGithubRepoList] = useState<GithubRepo[]>([]);
   const [supaRepoList, setSupaRepoList] = useState<SupaRepo[]>([]);
   const [supaTagList, setSupaTagList] = useState<SupaTag[]>([]);
+  const {loading} = useContext(LoadingContext)
 
   const db = new DB(uid);
 
   const syncGhRepoList = async () => {
+    loading(true)
     const res = await getStarredList();
+    loading(false)
     const data = res.map((repo) => ({
       ...pick(repo, githubRepoPickedKeys)
     }));
@@ -39,14 +43,18 @@ export default (uid: string) => {
   };
 
   const syncSupaRepoList = async () => {
+    loading(true)
     const { data, error } = await getSupaRepoList(uid);
+    loading(false)
     const list = error ? [] : data;
     setSupaRepoList(list);
     db.set(TABLE_NAME.SUPA_REPO_LIST, list);
   };
 
   const syncSupaTagList = async () => {
+    loading(true)
     const { data, error } = await getSupaTagList(uid);
+    loading(false)
     const list = error ? [] : data;
     setSupaTagList(list);
     db.set(TABLE_NAME.SUPA_TAG_LIST, list);

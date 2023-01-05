@@ -10,8 +10,8 @@ import LoadingProvider from "~/components/context/loading";
 
 const App = () => {
   return (
-    <RepoProvider>
-      <LoadingProvider>
+    <LoadingProvider>
+      <RepoProvider>
         <main className="container h-screen mx-auto  relative flex py-10">
           <SideBar>
             <UserInfo></UserInfo>
@@ -23,9 +23,9 @@ const App = () => {
             <TagList></TagList>
           </SideBar>
         </main>
-      </LoadingProvider>
-      <Toaster />
-    </RepoProvider>
+        <Toaster />
+      </RepoProvider>
+    </LoadingProvider>
   );
 };
 
