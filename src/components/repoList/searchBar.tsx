@@ -10,8 +10,9 @@ const SearchBar = () => {
   const hotKeyHint = isMac() ? "⌘ k" : "ctrl k";
 
   // focus to the input
-  useHotkeys("meta+k,ctrl+k", () => {
+  useHotkeys("meta+k,ctrl+k", (e) => {
     inputRef.current?.focus();
+    e.preventDefault();
   });
 
   // do search
