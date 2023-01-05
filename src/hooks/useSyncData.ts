@@ -83,7 +83,7 @@ export default (uid: string) => {
   useEffect(() => {
     // check local data
     db.get(TABLE_NAME.GH_REPO_LIST).then((res) => {
-      if (!res) {
+      if (!res?.length) {
         syncGhRepoList();
       } else {
         setGithubRepoList(res);
