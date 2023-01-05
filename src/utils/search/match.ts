@@ -11,7 +11,7 @@ export const matchSearchType = (val: string) => {
     const matchResult = val.match(item.regexp);
     if (matchResult) {
       result.type = item.type;
-      result.value = matchResult[1];
+      result.value = matchResult[1].replace(/^"|"$/g, "");
       return true;
     }
   });

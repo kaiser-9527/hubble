@@ -12,14 +12,12 @@ interface Props {
   title?: string;
   showCounts?: boolean;
   list: Array<Item>;
-  searchPrefix?: string;
   hideEmpty?: boolean;
   className?: string;
 }
 const SideBarList: React.FC<Props> = ({
   title,
   list,
-  searchPrefix,
   hideEmpty,
   className,
   showCounts,
