@@ -23,10 +23,7 @@ export default function Page() {
             Add tags and comment for each repo to find it easier
           </h3>
           <div className="flex items-center justify-center gap-2">
-            <Link
-              href="/app"
-              className={cn(buttonVariants({ size: "lg", variant: "accent" }))}
-            >
+            <Link href="/app" className={cn(buttonVariants({ size: "lg" }))}>
               Try it now
             </Link>
             <Link

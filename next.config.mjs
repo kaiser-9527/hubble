@@ -12,6 +12,12 @@ const nextConfig = {
         port: '',
         pathname: '/widgets/embed-image/v1/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'avatars.githubusercontent.com',
+        port: '',
+        pathname: '/u/**',
+      },
     ],
   },
 }

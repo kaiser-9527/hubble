@@ -1,9 +1,13 @@
 import { Metadata } from "next"
 
 import { cn } from "@/lib/utils"
-import { ThemeProvider } from "@/components/theme-provider"
 
 import "@/styles/globals.css"
+import { cookies } from "next/dist/client/components/headers"
+
+import { themeConfig } from "@/lib/config"
+import SupabaseProvider from "@/components/supabase-provider"
+import ThemeProvider from "@/components/theme-provider"
 
 export const metadata: Metadata = {
   title: "hubble",
@@ -21,15 +25,18 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
+  const cookieStore = cookies()
+  const theme = (cookieStore.get(themeConfig.keyInCookie)?.value ??
+    themeConfig.default) as string
   return (
-    <html lang="en">
+    <html lang="en" className={theme}>
       <body
         className={cn(
           "flex min-h-screen flex-col bg-background font-sans subpixel-antialiased"
         )}
       >
-        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
-          {children}
+        <ThemeProvider theme={theme}>
+          <SupabaseProvider>{children}</SupabaseProvider>
         </ThemeProvider>
       </body>
     </html>

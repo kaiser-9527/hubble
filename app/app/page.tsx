@@ -1,3 +1,5 @@
+"use client"
+
 import CategoryList from "@/components/app/category-list"
 import RepoList from "@/components/app/repo-list"
 import SearchBar from "@/components/app/search-bar"

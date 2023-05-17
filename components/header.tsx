@@ -1,8 +1,6 @@
 import Image from "next/image"
-import Link from "next/link"
-import { Github } from "lucide-react"
 
-import { buttonVariants } from "@/components/ui/button"
+import HeaderActions from "./header-actions"
 
 export default function Header() {
   // TODO user avatar
@@ -17,15 +15,7 @@ export default function Header() {
           width={99}
         />
 
-        <div className="flex items-center gap-2">
-          <Link
-            href="https://github.com/kaiser-9527/hubble"
-            target="_blank"
-            className={buttonVariants({ variant: "ghost", size: "sm" })}
-          >
-            <Github />
-          </Link>
-        </div>
+        <HeaderActions />
       </div>
     </header>
   )
