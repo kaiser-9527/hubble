@@ -1,58 +1,60 @@
-import { ScrollArea } from "../ui/scroll-area"
+import { ListItem } from "@/types/base"
 
-interface Item {
-  label: string
-  icon?: string
-  searchKeyword?: string
-  extral?: React.ReactNode
-}
+import { Box } from "../ui/box"
+import { Button } from "../ui/button"
+import { ScrollArea } from "../ui/scroll-area"
+import { Skeleton } from "../ui/skeleton"
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
   title?: string
-  list: Item[]
+  list?: ListItem[]
   displayTotal?: boolean
 }
 
-function CategoryListItem({ data }: { data: Item }) {
+function CategoryListItem({ data }: { data: ListItem }) {
   const handleItemClick = () => {
     console.log("click")
   }
   return (
-    <li
+    <Button
       onClick={handleItemClick}
-      className="hover:bg-primary-900/20 hover:text-primary-400 flex cursor-pointer justify-between rounded-md p-2"
+      className="w-full justify-between"
+      variant="ghost"
     >
       <span>{data.label}</span>
-      {data.extral && <span>{data.extral}</span>}
-    </li>
+      <span className="text-muted-foreground">{data.extral}</span>
+    </Button>
   )
 }
 
-export default function CategoryList({
-  title,
-  list,
-  displayTotal,
-  className,
-}: Props) {
+export default function CategoryList({ title, list, displayTotal }: Props) {
   return (
-    <div className={`box flex flex-col overflow-hidden ${className}`}>
+    <Box className="box flex flex-col px-0">
       {title && (
-        <h5 className="text-txt-2 mb-4">
+        <h5 className="mb-2 px-6 text-lg font-extrabold">
           {title}
           {displayTotal && (
             <span className="ml-1 text-sm text-muted-foreground">
-              ({list.length})
+              ({list?.length})
             </span>
           )}
         </h5>
       )}
-      <ScrollArea asChild className="w-full flex-1 rounded-md border p-4">
-        <ul>
-          {list.map((item) => (
-            <CategoryListItem key={item.label} data={item} />
-          ))}
-        </ul>
+      <ScrollArea className="w-full flex-1 px-2">
+        <div className="space-y-1 p-2">
+          {list ? (
+            list.map((item) => (
+              <CategoryListItem key={item.label} data={item} />
+            ))
+          ) : (
+            <>
+              <Skeleton className="h-10 w-full" />
+              <Skeleton className="h-10 w-full" />
+              <Skeleton className="h-10 w-full" />
+            </>
+          )}
+        </div>
       </ScrollArea>
-    </div>
+    </Box>
   )
 }

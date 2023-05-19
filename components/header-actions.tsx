@@ -6,6 +6,8 @@ import Link from "next/link"
 import { User } from "@supabase/auth-helpers-nextjs"
 import { Github, MoonStarIcon, SunIcon } from "lucide-react"
 
+import useSignIn from "@/hooks/useSignIn"
+
 import { useSupabase } from "./supabase-provider"
 import { useTheme } from "./theme-provider"
 import { Button } from "./ui/button"
@@ -31,27 +33,12 @@ function ThemeButton() {
 }
 
 function UserAvatar() {
-  const [user, setUser] = useState<User>()
-  const { supabase } = useSupabase()
-
-  const getUser = async () => {
-    const { data } = await supabase.auth.getSession()
-    setUser(data.session?.user)
-  }
-
-  const signIn = () => {
-    supabase.auth.signInWithOAuth({
-      provider: "github",
-    })
-  }
-
-  useEffect(() => {
-    getUser()
-  }, [supabase])
+  const { user } = useSupabase()
+  const handleSignIn = useSignIn()
 
   if (!user) {
     return (
-      <Button size="sm" variant="secondary" onClick={signIn}>
+      <Button size="sm" variant="secondary" onClick={handleSignIn}>
         Sign in
       </Button>
     )

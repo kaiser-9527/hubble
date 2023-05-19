@@ -38,21 +38,21 @@ export interface Database {
         Row: {
           comment: string | null
           created_at: string | null
-          github_id: string
+          github_id: number
           id: number
           user_id: string
         }
         Insert: {
           comment?: string | null
           created_at?: string | null
-          github_id: string
+          github_id: number
           id?: number
           user_id: string
         }
         Update: {
           comment?: string | null
           created_at?: string | null
-          github_id?: string
+          github_id?: number
           id?: number
           user_id?: string
         }
@@ -63,42 +63,42 @@ export interface Database {
           id: number
           repo_id: number
           tag_id: number
-          user_id: string | null
+          user_id: string
         }
         Insert: {
           created_at?: string | null
           id?: number
           repo_id: number
           tag_id: number
-          user_id?: string | null
+          user_id: string
         }
         Update: {
           created_at?: string | null
           id?: number
           repo_id?: number
           tag_id?: number
-          user_id?: string | null
+          user_id?: string
         }
       }
       tag: {
         Row: {
           created_at: string | null
           id: number
-          repo_counts: number
+          repos_count: number | null
           title: string
           user_id: string
         }
         Insert: {
           created_at?: string | null
           id?: number
-          repo_counts?: number
+          repos_count?: number | null
           title: string
           user_id: string
         }
         Update: {
           created_at?: string | null
           id?: number
-          repo_counts?: number
+          repos_count?: number | null
           title?: string
           user_id?: string
         }
@@ -108,7 +108,12 @@ export interface Database {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      upsert_repo: {
+        Args: {
+          req: Json
+        }
+        Returns: Json
+      }
     }
     Enums: {
       [_ in never]: never

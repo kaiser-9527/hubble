@@ -1,3 +1,3 @@
 export default function SearchResultCount() {
-  return <p>Resoult: 12</p>
+  return <p className="text-xs text-muted-foreground">Resoult: 12</p>
 }

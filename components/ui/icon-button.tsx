@@ -1,6 +1,3 @@
-import { ReactNode } from "react"
-import { cva } from "class-variance-authority"
-
 import { cn } from "@/lib/utils"
 
 import { Button, ButtonProps } from "./button"
@@ -12,6 +9,7 @@ export function IconButton({ children, size, className, ...props }: Props) {
     lg: "h-10 w-10",
     default: "h-9 w-9",
     sm: "h-7 w-7",
+    xs: "h-5 w-5",
   }
 
   const sizeClassName = size ? sizeClassNames[size] : ""

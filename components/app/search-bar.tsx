@@ -1,9 +1,9 @@
-import { KeyboardEvent as ReactKeyboardEvent, useContext, useRef } from "react"
+"use client"
+
+import { KeyboardEvent as ReactKeyboardEvent, useRef } from "react"
 import { useHotkeys } from "react-hotkeys-hook"
 
-import { isMac } from "@/lib/utils"
-
-import { Input } from "../ui/input"
+import { isMac } from "@/lib/utils-client"
 
 export default function SearchBar() {
   const inputRef = useRef<HTMLInputElement | null>(null)
@@ -21,6 +21,7 @@ export default function SearchBar() {
     const key = e.key
 
     if (key === "Enter") {
+      // TODO
     }
 
     if (key === "Escape") {
@@ -29,9 +30,9 @@ export default function SearchBar() {
   }
 
   return (
-    <div className="relative rounded-lg border-2 p-4 transition focus-within:border-accent">
-      <Input
-        className="w-full "
+    <div className="relative rounded-lg border-2  transition focus-within:border-primary">
+      <input
+        className="h-full w-full bg-transparent p-4 focus:outline-0"
         type="text"
         ref={inputRef}
         placeholder="search"

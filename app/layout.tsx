@@ -1,4 +1,5 @@
 import { Metadata } from "next"
+import { Inter } from "next/font/google"
 
 import { cn } from "@/lib/utils"
 
@@ -20,6 +21,11 @@ export const metadata: Metadata = {
   },
 }
 
+const inter = Inter({
+  subsets: ["latin"],
+  display: "swap",
+})
+
 export default function RootLayout({
   children,
 }: {
@@ -29,7 +35,7 @@ export default function RootLayout({
   const theme = (cookieStore.get(themeConfig.keyInCookie)?.value ??
     themeConfig.default) as string
   return (
-    <html lang="en" className={theme}>
+    <html lang="en" className={cn(theme, inter.className)}>
       <body
         className={cn(
           "flex min-h-screen flex-col bg-background font-sans subpixel-antialiased"
