@@ -8,12 +8,19 @@ import {
   useState,
 } from "react"
 
-import { ListItem, MixedRepo, TagItem, UpsertRepo } from "@/types/base"
+import {
+  ListItem,
+  MixedRepo,
+  RelationItem,
+  TagItem,
+  UpsertRepo,
+} from "@/types/base"
 import useRepoData from "@/hooks/useRepoData"
 
 interface StoreContextProps {
   repos?: MixedRepo[]
   tags?: TagItem[]
+  relations?: RelationItem[]
 
   languagsCount?: ListItem[]
 
@@ -43,6 +50,7 @@ export default function StoreProvider({ children }: { children: ReactNode }) {
     tags,
     languagsCount,
     repos,
+    relations,
     getTags,
     getSupabaseRepos,
     getGithubRepos,
@@ -70,6 +78,7 @@ export default function StoreProvider({ children }: { children: ReactNode }) {
         tags,
         languagsCount,
         displayRepos,
+        relations,
         searchValue,
         setSearchValue,
         search,

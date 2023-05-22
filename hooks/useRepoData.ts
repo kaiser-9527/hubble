@@ -187,6 +187,7 @@ export default function useSupabaseData() {
     tags,
     languagsCount,
     repos,
+    relations,
 
     getTags,
     getSupabaseRepos,
