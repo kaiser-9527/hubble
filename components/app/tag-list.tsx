@@ -8,7 +8,7 @@ export default function TagList() {
 
   const list = tags?.map((tag) => ({
     label: tag.title,
-    extral: tag.repos_count,
+    extral: 0,
   }))
 
   return <CategoryList title="Tags" displayTotal list={list} />

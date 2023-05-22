@@ -31,6 +31,7 @@ export default function RepoItem({ data }: { data: MixedRepo }) {
       <h4 className="flex justify-between">
         <Link
           href={html_url}
+          target="_blank"
           className="flex items-center gap-1 text-lg font-bold underline-offset-4 hover:text-primary hover:underline"
         >
           {full_name}

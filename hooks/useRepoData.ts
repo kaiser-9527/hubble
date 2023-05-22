@@ -13,6 +13,7 @@ import { LOCAL_DB } from "@/lib/config"
 import { db } from "@/lib/db"
 import { getStarredList } from "@/lib/github"
 import { mixRepos } from "@/lib/repo"
+import { useToast } from "@/components/ui/use-toast"
 import { useSupabase } from "@/components/supabase-provider"
 
 import useSignIn from "./useSignIn"
@@ -20,7 +21,7 @@ import useSignIn from "./useSignIn"
 export default function useSupabaseData() {
   const { supabase, user } = useSupabase()
   const signIn = useSignIn()
-
+  const { toast } = useToast()
   const [supaRepos, setSupaRepos] = useState<SupaRepoItem[]>([])
   const [relations, setRelations] = useState<RelationItem[]>([])
   const [githubRepos, setGithubRepos] = useState<GithubRepoItem[]>([])
@@ -30,9 +31,7 @@ export default function useSupabaseData() {
   const [languagsCount, setLanguagsCount] = useState<ListItem[] | undefined>()
 
   const getTags = async () => {
-    const { data, error } = await supabase
-      .from("tag")
-      .select("id,title,repos_count")
+    const { data, error } = await supabase.from("tag").select("id,title")
     if (!error) {
       setTags(data)
       db.set(LOCAL_DB.TAGS, data)
@@ -66,8 +65,6 @@ export default function useSupabaseData() {
     )
     if (error) {
       if (error.status === 401) {
-        console.log("?? 401")
-
         signIn()
       } else {
         db.set(LOCAL_DB.GH_REPOS, "")
@@ -83,7 +80,57 @@ export default function useSupabaseData() {
       method: "post",
       body: JSON.stringify(data),
     })
-    console.log("====>", res)
+    const _data = await res.json()
+    const { repo, newTags, newRelations, removedRelations, faildMessages } =
+      _data
+    if (faildMessages?.length) {
+      // TODO
+      toast({
+        variant: "destructive",
+        description: [
+          ...faildMessages,
+          "Please synchronize the remote data first",
+        ].join("\n"),
+      })
+    }
+
+    // update repos
+    let newRepos
+    if (repo.type === "insert") {
+      newRepos = [...supaRepos, repo.data]
+    } else {
+      newRepos = supaRepos.map((r) => {
+        if (r.id === repo.data.id) {
+          return {
+            ...r,
+            comment: repo.data.comment,
+          }
+        }
+        return r
+      })
+    }
+    setSupaRepos(newRepos)
+    db.set(LOCAL_DB.SUPA_REPOS, newRepos)
+
+    // update tags
+    if (newTags?.length) {
+      const _newTags = [...(tags ?? []), ...newTags]
+      setTags(_newTags)
+      db.set(LOCAL_DB.TAGS, _newTags)
+    }
+
+    // update relations
+    let _newRelations = relations
+    if (removedRelations?.length) {
+      _newRelations = relations?.filter((r) => {
+        return !removedRelations.includes(r.id)
+      })
+    }
+    if (newRelations?.length) {
+      _newRelations = [..._newRelations, ...newRelations]
+    }
+    setRelations(_newRelations)
+    db.set(LOCAL_DB.RELATION, _newRelations)
   }
 
   const initLocalData = async () => {

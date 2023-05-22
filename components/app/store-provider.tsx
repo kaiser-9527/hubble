@@ -46,7 +46,6 @@ export default function StoreProvider({ children }: { children: ReactNode }) {
     getTags,
     getSupabaseRepos,
     getGithubRepos,
-    getRepoTagRelation,
     upsertRepo,
   } = useRepoData()
 

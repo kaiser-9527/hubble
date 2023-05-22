@@ -34,6 +34,32 @@ export interface Database {
   }
   public: {
     Tables: {
+      extensions: {
+        Row: {
+          id: string
+          inserted_at: string
+          settings: Json | null
+          tenant_external_id: string | null
+          type: string | null
+          updated_at: string
+        }
+        Insert: {
+          id: string
+          inserted_at: string
+          settings?: Json | null
+          tenant_external_id?: string | null
+          type?: string | null
+          updated_at: string
+        }
+        Update: {
+          id?: string
+          inserted_at?: string
+          settings?: Json | null
+          tenant_external_id?: string | null
+          type?: string | null
+          updated_at?: string
+        }
+      }
       repo: {
         Row: {
           comment: string | null
@@ -80,27 +106,82 @@ export interface Database {
           user_id?: string
         }
       }
+      schema_migrations: {
+        Row: {
+          inserted_at: string | null
+          version: number
+        }
+        Insert: {
+          inserted_at?: string | null
+          version: number
+        }
+        Update: {
+          inserted_at?: string | null
+          version?: number
+        }
+      }
       tag: {
         Row: {
           created_at: string | null
           id: number
-          repos_count: number | null
           title: string
           user_id: string
         }
         Insert: {
           created_at?: string | null
           id?: number
-          repos_count?: number | null
           title: string
           user_id: string
         }
         Update: {
           created_at?: string | null
           id?: number
-          repos_count?: number | null
           title?: string
           user_id?: string
+        }
+      }
+      tenants: {
+        Row: {
+          external_id: string | null
+          id: string
+          inserted_at: string
+          jwt_secret: string | null
+          max_bytes_per_second: number
+          max_channels_per_client: number
+          max_concurrent_users: number
+          max_events_per_second: number
+          max_joins_per_second: number
+          name: string | null
+          postgres_cdc_default: string | null
+          updated_at: string
+        }
+        Insert: {
+          external_id?: string | null
+          id: string
+          inserted_at: string
+          jwt_secret?: string | null
+          max_bytes_per_second?: number
+          max_channels_per_client?: number
+          max_concurrent_users?: number
+          max_events_per_second?: number
+          max_joins_per_second?: number
+          name?: string | null
+          postgres_cdc_default?: string | null
+          updated_at: string
+        }
+        Update: {
+          external_id?: string | null
+          id?: string
+          inserted_at?: string
+          jwt_secret?: string | null
+          max_bytes_per_second?: number
+          max_channels_per_client?: number
+          max_concurrent_users?: number
+          max_events_per_second?: number
+          max_joins_per_second?: number
+          name?: string | null
+          postgres_cdc_default?: string | null
+          updated_at?: string
         }
       }
     }
@@ -108,11 +189,18 @@ export interface Database {
       [_ in never]: never
     }
     Functions: {
-      upsert_repo: {
+      up_repo: {
         Args: {
-          req: Json
+          p_id?: number
+          p_user_id?: string
+          p_github_id?: number
+          p_comment?: string
         }
-        Returns: Json
+        Returns: {
+          id: number
+          github_id: string
+          comment: string
+        }[]
       }
     }
     Enums: {

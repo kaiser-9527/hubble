@@ -9,7 +9,7 @@ export interface ListItem {
 
 export type TagItem = Pick<
   Database["public"]["Tables"]["tag"]["Row"],
-  "id" | "title" | "repos_count"
+  "id" | "title"
 >
 
 export type RelationItem = Pick<
@@ -55,8 +55,7 @@ export type MixedRepo = Pick<
 }
 
 export interface UpsertRepo {
-  repo_id?: number
-  repo_comment?: string
+  comment?: string
   github_id?: number
 
   added_tag_ids?: number[]

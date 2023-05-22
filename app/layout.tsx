@@ -2,6 +2,7 @@ import { Metadata } from "next"
 import { Inter } from "next/font/google"
 
 import { cn } from "@/lib/utils"
+import { Toaster } from "@/components/ui/toaster"
 
 import "@/styles/globals.css"
 import { cookies, headers } from "next/headers"
@@ -53,6 +54,7 @@ export default async function RootLayout({
       >
         <ThemeProvider theme={theme}>
           <SupabaseProvider session={session}>{children}</SupabaseProvider>
+          <Toaster />
         </ThemeProvider>
       </body>
     </html>

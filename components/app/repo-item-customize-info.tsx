@@ -51,18 +51,14 @@ export default function RepoItemCustomizeInfo({
     setLoading(true)
     setIsEditable(false)
 
-    const { addedTags, removedTags, createdTags } = compareTags(
+    const { added_tag_ids, removed_tag_ids, created_tag_titles } = compareTags(
       tags ?? [],
       editableTags
     )
-    const added_tag_ids = addedTags.map((tag) => tag.id)
-    const removed_tag_ids = removedTags.map((tag) => tag.id)
-    const created_tag_titles = createdTags.map((tag) => tag.title)
 
     await upsertRepo({
-      repo_id: data.supa_id,
       github_id: data.github_id,
-      repo_comment: commentValue === comment ? undefined : commentValue, // update when comment dirty
+      comment: commentValue,
       added_tag_ids,
       removed_tag_ids,
       created_tag_titles,
