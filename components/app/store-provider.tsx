@@ -22,6 +22,7 @@ interface StoreContextProps {
   tags?: TagItem[]
   relations?: RelationItem[]
 
+  loadingCount: number
   languagsCount?: ListItem[]
 
   // search
@@ -51,6 +52,7 @@ export default function StoreProvider({ children }: { children: ReactNode }) {
     languagsCount,
     repos,
     relations,
+    loadingCount,
     getTags,
     getSupabaseRepos,
     getGithubRepos,
@@ -80,6 +82,7 @@ export default function StoreProvider({ children }: { children: ReactNode }) {
         displayRepos,
         relations,
         searchValue,
+        loadingCount,
         setSearchValue,
         search,
         getGithubRepos,

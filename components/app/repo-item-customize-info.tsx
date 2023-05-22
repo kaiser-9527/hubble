@@ -1,5 +1,5 @@
-import { useMemo, useState } from "react"
-import { PlusIcon, UploadCloud, UploadCloudIcon } from "lucide-react"
+import { useState } from "react"
+import { UploadCloudIcon } from "lucide-react"
 
 import { MixedRepo, TagItem } from "@/types/base"
 import { compareTags } from "@/lib/utils"

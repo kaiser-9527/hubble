@@ -1,6 +1,7 @@
 "use client"
 
 import Languages from "@/components/app/languages"
+import AppLoading from "@/components/app/loading"
 import Overview from "@/components/app/overview"
 import RepoList from "@/components/app/repo-list"
 import SearchBar from "@/components/app/search-bar"
@@ -29,6 +30,8 @@ export default function Page() {
         <SideBar>
           <TagList />
         </SideBar>
+
+        <AppLoading />
       </StoreProvider>
     </main>
   )

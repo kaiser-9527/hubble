@@ -22,6 +22,7 @@ export default function useSupabaseData() {
   const { supabase, user } = useSupabase()
   const signIn = useSignIn()
   const { toast } = useToast()
+  const [loadingCount, setLoadingCount] = useState(0)
   const [supaRepos, setSupaRepos] = useState<SupaRepoItem[]>([])
   const [relations, setRelations] = useState<RelationItem[]>([])
   const [githubRepos, setGithubRepos] = useState<GithubRepoItem[]>([])
@@ -31,14 +32,17 @@ export default function useSupabaseData() {
   const [languagsCount, setLanguagsCount] = useState<ListItem[] | undefined>()
 
   const getTags = async () => {
+    setLoadingCount((c) => c + 1)
     const { data, error } = await supabase.from("tag").select("id,title")
     if (!error) {
       setTags(data)
       db.set(LOCAL_DB.TAGS, data)
     }
+    setLoadingCount((c) => c - 1)
   }
 
   const getRepoTagRelation = async () => {
+    setLoadingCount((c) => c + 1)
     const { data, error } = await supabase
       .from("repo_tag")
       .select("id,repo_id,tag_id")
@@ -46,9 +50,11 @@ export default function useSupabaseData() {
       setRelations(data)
       db.set(LOCAL_DB.RELATION, data)
     }
+    setLoadingCount((c) => c - 1)
   }
 
   const getSupabaseRepos = async () => {
+    setLoadingCount((c) => c + 1)
     const { data, error } = await supabase
       .from("repo")
       .select("id,comment,github_id")
@@ -56,9 +62,11 @@ export default function useSupabaseData() {
       setSupaRepos(data)
       db.set(LOCAL_DB.SUPA_REPOS, data)
     }
+    setLoadingCount((c) => c - 1)
   }
 
   const getGithubRepos = async () => {
+    setLoadingCount((c) => c + 1)
     const { data } = await supabase.auth.getSession()
     const { data: _repos, error } = await getStarredList(
       data.session?.provider_token ?? ""
@@ -73,6 +81,7 @@ export default function useSupabaseData() {
       setGithubRepos(_repos!)
       db.set(LOCAL_DB.GH_REPOS, _repos)
     }
+    setLoadingCount((c) => c - 1)
   }
 
   const upsertRepo = async (data: UpsertRepo) => {
@@ -188,6 +197,7 @@ export default function useSupabaseData() {
     languagsCount,
     repos,
     relations,
+    loadingCount,
 
     getTags,
     getSupabaseRepos,
