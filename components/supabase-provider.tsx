@@ -9,10 +9,13 @@ import {
   type SupabaseClient,
 } from "@supabase/auth-helpers-nextjs"
 
-import type { Database } from "@/types/database.d.ts"
+import type { Database } from "@/types/database"
+
+type MaybeSession = Session | null
 
 type SupabaseContext = {
   supabase: SupabaseClient<Database>
+  session: MaybeSession
   user?: User
 }
 
@@ -20,17 +23,13 @@ const Context = createContext<SupabaseContext | undefined>(undefined)
 
 export default function SupabaseProvider({
   children,
+  session,
 }: {
   children: React.ReactNode
+  session: MaybeSession
 }) {
   const [supabase] = useState(() => createBrowserSupabaseClient())
-  const [user, setUser] = useState<User>()
   const router = useRouter()
-
-  const getUser = async () => {
-    const { data } = await supabase.auth.getSession()
-    setUser(data.session?.user)
-  }
 
   useEffect(() => {
     const {
@@ -39,15 +38,13 @@ export default function SupabaseProvider({
       router.refresh()
     })
 
-    getUser()
-
     return () => {
       subscription.unsubscribe()
     }
   }, [router, supabase])
 
   return (
-    <Context.Provider value={{ supabase, user }}>
+    <Context.Provider value={{ supabase, session, user: session?.user }}>
       <>{children}</>
     </Context.Provider>
   )

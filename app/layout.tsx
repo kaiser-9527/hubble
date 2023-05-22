@@ -4,7 +4,8 @@ import { Inter } from "next/font/google"
 import { cn } from "@/lib/utils"
 
 import "@/styles/globals.css"
-import { cookies } from "next/dist/client/components/headers"
+import { cookies, headers } from "next/headers"
+import { createServerComponentSupabaseClient } from "@supabase/auth-helpers-nextjs"
 
 import { themeConfig } from "@/lib/config"
 import SupabaseProvider from "@/components/supabase-provider"
@@ -26,7 +27,7 @@ const inter = Inter({
   display: "swap",
 })
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode
@@ -34,6 +35,15 @@ export default function RootLayout({
   const cookieStore = cookies()
   const theme = (cookieStore.get(themeConfig.keyInCookie)?.value ??
     themeConfig.default) as string
+
+  const supabase = createServerComponentSupabaseClient({
+    headers,
+    cookies,
+  })
+
+  const {
+    data: { session },
+  } = await supabase.auth.getSession()
   return (
     <html lang="en" className={cn(theme, inter.className)}>
       <body
@@ -42,7 +52,7 @@ export default function RootLayout({
         )}
       >
         <ThemeProvider theme={theme}>
-          <SupabaseProvider>{children}</SupabaseProvider>
+          <SupabaseProvider session={session}>{children}</SupabaseProvider>
         </ThemeProvider>
       </body>
     </html>
