@@ -12,6 +12,7 @@ export default function Languages() {
 
   return (
     <CategoryList
+      className="flex-1 overflow-hidden"
       title="Languages"
       list={languagsCount}
       onItemClick={onItemClick}

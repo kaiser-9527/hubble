@@ -1,4 +1,5 @@
 import { ListItem } from "@/types/base"
+import { cn } from "@/lib/utils"
 
 import { Box } from "../ui/box"
 import { Button } from "../ui/button"
@@ -9,6 +10,7 @@ interface Props extends React.HTMLAttributes<HTMLDivElement> {
   title?: string
   list?: ListItem[]
   displayTotal?: boolean
+  className?: string
   onItemClick?: (label: string) => void
 }
 
@@ -16,10 +18,11 @@ export default function CategoryList({
   title,
   list,
   displayTotal,
+  className,
   onItemClick,
 }: Props) {
   return (
-    <Box className="box flex flex-col px-0">
+    <Box className={cn("box flex flex-col px-0", className)}>
       {title && (
         <h5 className="mb-2 px-6 text-lg font-extrabold">
           {title}

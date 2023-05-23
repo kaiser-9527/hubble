@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react"
+import { useRouter } from "next/navigation"
 
 import {
   GithubRepoItem,
@@ -11,16 +12,12 @@ import {
 } from "@/types/base"
 import { LOCAL_DB } from "@/lib/config"
 import { db } from "@/lib/db"
-import { getStarredList } from "@/lib/github"
 import { mixRepos } from "@/lib/repo"
 import { useToast } from "@/components/ui/use-toast"
 import { useSupabase } from "@/components/supabase-provider"
 
-import useSignIn from "./useSignIn"
-
 export default function useSupabaseData() {
   const { supabase, user } = useSupabase()
-  const signIn = useSignIn()
   const { toast } = useToast()
   const [loadingCount, setLoadingCount] = useState(0)
   const [supaRepos, setSupaRepos] = useState<SupaRepoItem[]>([])
@@ -30,6 +27,8 @@ export default function useSupabaseData() {
   const [tags, setTags] = useState<TagItem[] | undefined>()
   const [repos, setRepos] = useState<MixedRepo[] | undefined>()
   const [languagsCount, setLanguagsCount] = useState<ListItem[] | undefined>()
+
+  const router = useRouter()
 
   const getTags = async () => {
     setLoadingCount((c) => c + 1)
@@ -67,21 +66,17 @@ export default function useSupabaseData() {
 
   const getGithubRepos = async () => {
     setLoadingCount((c) => c + 1)
-    const { data } = await supabase.auth.getSession()
-    const { data: _repos, error } = await getStarredList(
-      data.session?.provider_token ?? ""
-    )
-    if (error) {
-      if (error.status === 401) {
-        signIn()
-      } else {
-        db.set(LOCAL_DB.GH_REPOS, "")
-      }
-    } else {
-      setGithubRepos(_repos!)
-      db.set(LOCAL_DB.GH_REPOS, _repos)
-    }
+
+    const res = await fetch("/api/github-starred-repo")
     setLoadingCount((c) => c - 1)
+
+    if (!res.ok) {
+      router.push("/login")
+      return
+    }
+    const { data } = await res.json()
+    setGithubRepos(data)
+    db.set(LOCAL_DB.GH_REPOS, data)
   }
 
   const upsertRepo = async (data: UpsertRepo) => {
@@ -140,6 +135,13 @@ export default function useSupabaseData() {
     }
     setRelations(_newRelations)
     db.set(LOCAL_DB.RELATION, _newRelations)
+  }
+
+  const forceSyncAllData = () => {
+    getGithubRepos()
+    getSupabaseRepos()
+    getTags()
+    getRepoTagRelation()
   }
 
   const initLocalData = async () => {
@@ -204,5 +206,6 @@ export default function useSupabaseData() {
     getGithubRepos,
     getRepoTagRelation,
     upsertRepo,
+    forceSyncAllData,
   }
 }

@@ -1,16 +1,12 @@
 "use client"
 
-import { useEffect, useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { User } from "@supabase/auth-helpers-nextjs"
 import { Github, MoonStarIcon, SunIcon } from "lucide-react"
-
-import useSignIn from "@/hooks/useSignIn"
 
 import { useSupabase } from "./supabase-provider"
 import { useTheme } from "./theme-provider"
-import { Button } from "./ui/button"
+import { buttonVariants } from "./ui/button"
 import { IconButton } from "./ui/icon-button"
 
 function GithubIcon() {
@@ -34,13 +30,15 @@ function ThemeButton() {
 
 function UserAvatar() {
   const { user } = useSupabase()
-  const handleSignIn = useSignIn()
 
   if (!user) {
     return (
-      <Button size="sm" variant="secondary" onClick={handleSignIn}>
+      <Link
+        className={buttonVariants({ size: "sm", variant: "secondary" })}
+        href="/login"
+      >
         Sign in
-      </Button>
+      </Link>
     )
   }
 

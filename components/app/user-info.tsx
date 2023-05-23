@@ -7,12 +7,8 @@ import { useStore } from "./store-provider"
 
 export default function UserInfo() {
   const { user } = useSupabase()
-  const { getAllStarredRepos } = useStore()
   return (
-    <Box
-      className="flex flex-col items-center gap-2"
-      onClick={getAllStarredRepos}
-    >
+    <Box className="flex flex-col items-center gap-2">
       {user ? (
         <>
           <Image

@@ -3,7 +3,7 @@
 import { KeyboardEvent as ReactKeyboardEvent, useRef } from "react"
 import { useHotkeys } from "react-hotkeys-hook"
 
-import { isMac } from "@/lib/utils-client"
+import { isMac } from "@/lib/utils"
 
 import { useStore } from "./store-provider"
 
@@ -24,7 +24,7 @@ export default function SearchBar() {
     const key = e.key
 
     if (key === "Enter") {
-      search()
+      search(searchValue)
     }
 
     if (key === "Escape") {
@@ -33,7 +33,7 @@ export default function SearchBar() {
   }
 
   return (
-    <div className="relative rounded-lg border-2  transition focus-within:border-primary">
+    <div className="relative rounded-lg border-4 transition focus-within:border-primary">
       <input
         className="h-full w-full bg-transparent p-4 focus:outline-0"
         type="text"

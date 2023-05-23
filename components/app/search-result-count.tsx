@@ -1,3 +1,10 @@
+import { useStore } from "./store-provider"
+
 export default function SearchResultCount() {
-  return <p className="text-xs text-muted-foreground">Resoult: 12</p>
+  const { displayRepos } = useStore()
+  return (
+    <p className="text-xs text-muted-foreground">
+      Resoult: {displayRepos?.length ?? 0}
+    </p>
+  )
 }

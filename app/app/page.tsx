@@ -1,5 +1,6 @@
 "use client"
 
+import AppHeader from "@/components/app/header"
 import Languages from "@/components/app/languages"
 import AppLoading from "@/components/app/loading"
 import Overview from "@/components/app/overview"
@@ -13,26 +14,30 @@ import UserInfo from "@/components/app/user-info"
 
 export default function Page() {
   return (
-    <main className="container relative mx-auto flex h-screen py-10">
-      <StoreProvider>
-        <SideBar>
-          <UserInfo />
-          <Overview />
-          <Languages />
-        </SideBar>
+    <StoreProvider>
+      <main className="relative flex h-screen flex-col gap-4 overflow-hidden">
+        <AppHeader />
 
-        <section className="flex flex-1 flex-col gap-2 px-4">
-          <SearchBar />
-          <SearchResultCount />
-          <RepoList />
+        <section className="container flex flex-1 overflow-hidden pb-10">
+          <SideBar>
+            <UserInfo />
+            <Overview />
+            <Languages />
+          </SideBar>
+
+          <div className="flex flex-1 flex-col gap-2 px-4">
+            <SearchBar />
+            <SearchResultCount />
+            <RepoList />
+          </div>
+
+          <SideBar>
+            <TagList />
+          </SideBar>
         </section>
 
-        <SideBar>
-          <TagList />
-        </SideBar>
-
         <AppLoading />
-      </StoreProvider>
-    </main>
+      </main>
+    </StoreProvider>
   )
 }

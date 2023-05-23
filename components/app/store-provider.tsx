@@ -58,6 +58,7 @@ export default function StoreProvider({ children }: { children: ReactNode }) {
     getSupabaseRepos,
     getGithubRepos,
     upsertRepo,
+    forceSyncAllData,
   } = useRepoData()
 
   const search: StoreContextProps["search"] = (val?: string) => {
@@ -68,8 +69,6 @@ export default function StoreProvider({ children }: { children: ReactNode }) {
       setDisplayRepos(res)
     }
   }
-
-  const forceSyncAllData = () => {}
 
   useEffect(() => {
     search(searchValue)

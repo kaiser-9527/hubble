@@ -42,6 +42,7 @@ export default function TagList() {
 
   return (
     <CategoryList
+      className="overflow-hidden"
       title="Tags"
       displayTotal
       list={list}

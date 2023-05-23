@@ -1,6 +1,6 @@
 import { MixedRepo } from "@/types/base"
 
-import { fullMatch, fuzzyMatch } from "./utils"
+import { fullMatch, stringContains } from "./utils"
 
 const SearchTypeRex = [
   { type: "pure", regexp: /pure:/i },
@@ -54,7 +54,7 @@ export const searchRepo = ({
           if (fullMatch(valType.value, "unknown")) {
             return !repo.language
           }
-          return fullMatch(valType.value, repo.language)
+          return fullMatch(valType.value, repo.language ?? "")
         })
         break
       case "tag":
@@ -64,33 +64,35 @@ export const searchRepo = ({
         break
       case "comment":
         result = result.filter((repo) =>
-          repo.comment ? fuzzyMatch(valType.value, repo.comment) : false
+          repo.comment ? stringContains(valType.value, repo.comment) : false
         )
         break
       default:
         result = result.filter((repo) => {
           // match title
-          if (fuzzyMatch(valType.value, repo.full_name)) {
+          if (stringContains(valType.value, repo.full_name)) {
             return true
           }
 
           // match descriptin
-          if (fuzzyMatch(valType.value, repo.description)) {
+          if (stringContains(valType.value, repo.description)) {
             return true
           }
 
           // lang
-          if (fuzzyMatch(valType.value, repo.language)) {
+          if (stringContains(valType.value, repo.language)) {
             return true
           }
 
           // tag
-          if (repo.tags?.some((tag) => fuzzyMatch(valType.value, tag.title))) {
+          if (
+            repo.tags?.some((tag) => stringContains(valType.value, tag.title))
+          ) {
             return true
           }
 
           // comment
-          if (repo.comment && fuzzyMatch(valType.value, repo.comment)) {
+          if (repo.comment && stringContains(valType.value, repo.comment)) {
             return true
           }
 

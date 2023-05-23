@@ -99,9 +99,6 @@ export async function POST(request: Request) {
     }
   }
 
-  console.log("----- repo -----")
-  console.log(repo.data)
-
   const removedRelations: number[] = []
   if (removed_tag_ids?.length) {
     // batch delete
@@ -143,10 +140,6 @@ export async function POST(request: Request) {
       )
       .select("id, title")
 
-    console.log("----- created tags-----")
-    console.log(createTagRes.data)
-    console.log("-------------------")
-
     if (createTagRes.error) {
       faildMessages.push("Failed to create tags")
     } else {
@@ -171,12 +164,6 @@ export async function POST(request: Request) {
       .select("id,repo_id,tag_id")
 
     if (newRelationsRes.error) {
-      console.log(
-        "---- add releations error ",
-        newRelationsRes.error,
-        addedTags
-      )
-
       faildMessages.push("Failed to add tags")
     } else {
       newRelationsRes.data?.forEach((r) => {

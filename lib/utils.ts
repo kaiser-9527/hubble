@@ -63,3 +63,15 @@ export function compareTags(tags1: TagItem[], tags2: TagItem[]) {
 }
 
 export const hasMiddleSpace = (tar: string) => /\s./.test(tar.trim())
+
+export const isMac = () => {
+  if (typeof navigator !== "undefined") {
+    return /macintosh|mac os x/i.test(navigator.userAgent)
+  }
+  return false
+}
+
+export const stringContains = (val: string, source?: string) => {
+  if (!source) return false
+  return source.toLowerCase().includes(val.toLowerCase())
+}

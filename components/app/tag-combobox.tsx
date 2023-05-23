@@ -49,7 +49,6 @@ export function TagCombobox({
   }
 
   const handleCreateTag = (val: string) => {
-    console.log("create tag:", val)
     const newTag: TagItem = {
       id: -1 * Date.now(), // id < 0 means this is a local/temp tag
       title: val,

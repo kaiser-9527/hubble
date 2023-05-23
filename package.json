@@ -14,7 +14,7 @@
     "format:check": "prettier --check \"**/*.{ts,tsx,mdx}\" --cache",
     "prepare": "husky install",
     "sb:start": "supabase start",
-    "sb:gen-types": "supabase gen types typescript --local > types/database.d.ts"
+    "sb:gen-types": "supabase gen types typescript --local > types/database.ts"
   },
   "lint-staged": {
     "*.{ts,tsx,jsx,js,mdx}": [

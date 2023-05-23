@@ -1,18 +1,25 @@
 "use client"
 
+import { useEffect } from "react"
 import { GithubIcon } from "lucide-react"
 
-import useSignIn from "@/hooks/useSignIn"
+import { Button } from "@/components/ui/button"
+import { useSupabase } from "@/components/supabase-provider"
 
-import { Button } from "./ui/button"
+export default function Login() {
+  const { supabase } = useSupabase()
 
-export default function SignIn() {
-  const handleSignIn = useSignIn()
+  useEffect(() => {
+    supabase.auth.signInWithOAuth({
+      provider: "github",
+    })
+  }, [supabase.auth])
+
   return (
     <div className="flex h-screen w-screen items-center justify-center">
       <div className="flex flex-col justify-center">
         <h2 className="pb-10 text-4xl font-bold">Log in to Hubble</h2>
-        <Button onClick={handleSignIn}>
+        <Button>
           <GithubIcon></GithubIcon>
           Continue with github
         </Button>
