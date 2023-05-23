@@ -9,17 +9,17 @@ import { useSupabase } from "@/components/supabase-provider"
 export default function Login() {
   const { supabase } = useSupabase()
 
-  useEffect(() => {
+  const login = () => {
     supabase.auth.signInWithOAuth({
       provider: "github",
     })
-  }, [supabase.auth])
+  }
 
   return (
     <div className="flex h-screen w-screen items-center justify-center">
       <div className="flex flex-col justify-center">
         <h2 className="pb-10 text-4xl font-bold">Log in to Hubble</h2>
-        <Button>
+        <Button onClick={login}>
           <GithubIcon></GithubIcon>
           Continue with github
         </Button>
