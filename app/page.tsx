@@ -1,9 +1,9 @@
-import Image from "next/image"
 import Link from "next/link"
 
 import { cn } from "@/lib/utils"
 import { buttonVariants } from "@/components/ui/button"
 import Header from "@/components/header"
+import ScreenShotPic from "@/components/screen-shot-pic"
 
 export default function Page() {
   return (
@@ -40,13 +40,7 @@ export default function Page() {
           </div>
         </div>
         <div className="mt-10">
-          <Image
-            src="/images/screen-shot.png"
-            alt="hubble screen shot"
-            height="577"
-            width="1049"
-            className="mx-auto rounded-md border shadow"
-          />
+          <ScreenShotPic />
         </div>
       </main>
     </>
