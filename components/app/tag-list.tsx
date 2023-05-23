@@ -1,13 +1,22 @@
 import { useEffect, useState } from "react"
 
 import { ListItem } from "@/types/base"
+import { hasMiddleSpace } from "@/lib/utils"
 
 import CategoryList from "./category-list"
 import { useStore } from "./store-provider"
 
 export default function TagList() {
-  const { tags, relations } = useStore()
+  const { tags, relations, setSearchValue, search } = useStore()
   const [list, setList] = useState<ListItem[]>([])
+
+  const onItemClick = (label: string) => {
+    const searchKeyword = hasMiddleSpace(label)
+      ? `tag:"${label}"`
+      : `tag:${label}`
+    setSearchValue(searchKeyword)
+    search(searchKeyword)
+  }
 
   useEffect(() => {
     const relationMap = relations
@@ -31,5 +40,12 @@ export default function TagList() {
     )
   }, [tags, relations])
 
-  return <CategoryList title="Tags" displayTotal list={list} />
+  return (
+    <CategoryList
+      title="Tags"
+      displayTotal
+      list={list}
+      onItemClick={onItemClick}
+    />
+  )
 }

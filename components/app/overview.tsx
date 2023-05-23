@@ -4,7 +4,7 @@ import CategoryList from "./category-list"
 import { useStore } from "./store-provider"
 
 export default function Overview() {
-  const { repos } = useStore()
+  const { repos, setSearchValue, search } = useStore()
 
   const list = useMemo(() => {
     if (!repos) return
@@ -29,5 +29,11 @@ export default function Overview() {
     ]
   }, [repos])
 
-  return <CategoryList title="Overview" list={list} />
+  const onItemClick = (label: string) => {
+    const keyword = label === "All" ? "" : "pure:"
+    setSearchValue(keyword)
+    search(keyword)
+  }
+
+  return <CategoryList title="Overview" list={list} onItemClick={onItemClick} />
 }

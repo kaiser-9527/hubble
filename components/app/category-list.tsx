@@ -9,25 +9,15 @@ interface Props extends React.HTMLAttributes<HTMLDivElement> {
   title?: string
   list?: ListItem[]
   displayTotal?: boolean
+  onItemClick?: (label: string) => void
 }
 
-function CategoryListItem({ data }: { data: ListItem }) {
-  const handleItemClick = () => {
-    console.log("click")
-  }
-  return (
-    <Button
-      onClick={handleItemClick}
-      className="w-full justify-between"
-      variant="ghost"
-    >
-      <span>{data.label}</span>
-      <span className="text-muted-foreground">{data.extral}</span>
-    </Button>
-  )
-}
-
-export default function CategoryList({ title, list, displayTotal }: Props) {
+export default function CategoryList({
+  title,
+  list,
+  displayTotal,
+  onItemClick,
+}: Props) {
   return (
     <Box className="box flex flex-col px-0">
       {title && (
@@ -44,7 +34,15 @@ export default function CategoryList({ title, list, displayTotal }: Props) {
         <div className="space-y-1 p-2">
           {list ? (
             list.map((item) => (
-              <CategoryListItem key={item.label} data={item} />
+              <Button
+                key={item.label}
+                onClick={() => onItemClick?.(item.label)}
+                className="w-full justify-between"
+                variant="ghost"
+              >
+                <span>{item.label}</span>
+                <span className="text-muted-foreground">{item.extral}</span>
+              </Button>
             ))
           ) : (
             <>

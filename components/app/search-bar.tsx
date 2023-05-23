@@ -5,8 +5,11 @@ import { useHotkeys } from "react-hotkeys-hook"
 
 import { isMac } from "@/lib/utils-client"
 
+import { useStore } from "./store-provider"
+
 export default function SearchBar() {
   const inputRef = useRef<HTMLInputElement | null>(null)
+  const { searchValue, setSearchValue, search } = useStore()
 
   const hotKeyHint = isMac() ? "⌘ k" : "ctrl k"
 
@@ -21,7 +24,7 @@ export default function SearchBar() {
     const key = e.key
 
     if (key === "Enter") {
-      // TODO
+      search()
     }
 
     if (key === "Escape") {
@@ -35,8 +38,10 @@ export default function SearchBar() {
         className="h-full w-full bg-transparent p-4 focus:outline-0"
         type="text"
         ref={inputRef}
+        value={searchValue}
         placeholder="search"
         onKeyDown={handleInputKeydow}
+        onChange={(e) => setSearchValue(e.target.value)}
       />
       <kbd className="pointer-events-none  absolute inset-y-0 right-1 m-auto h-7 rounded-lg px-1 leading-7 text-muted-foreground">
         {hotKeyHint}

@@ -61,3 +61,5 @@ export function compareTags(tags1: TagItem[], tags2: TagItem[]) {
   })
   return { added_tag_ids, removed_tag_ids, created_tag_titles }
 }
+
+export const hasMiddleSpace = (tar: string) => /\s./.test(tar.trim())

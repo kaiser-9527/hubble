@@ -42,10 +42,6 @@ export const mixRepos = ({
   tags?: TagItem[]
   relations?: RelationItem[]
 }) => {
-  console.group("mix")
-  console.log(githubRepos, supaRepos, tags, relations)
-  console.groupEnd()
-
   const langCountMap: Record<string, number> = {}
   const repos = githubRepos.map((ghRepo) => {
     const supaRepo = findSupaRepo(supaRepos, ghRepo.id)
@@ -86,10 +82,4 @@ export const mixRepos = ({
     repos,
     languagsCount,
   }
-}
-
-export const search = (repos: MixedRepo[], val?: string) => {
-  if (!val) return repos
-
-  return []
 }
