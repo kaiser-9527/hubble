@@ -21,7 +21,7 @@ export default function RepoItem({ data }: { data: MixedRepo }) {
     forks_count,
     watchers_count,
     html_url,
-    full_name,
+    name,
   } = data
 
   const [isEditable, setIsEditable] = useState(false)
@@ -34,7 +34,7 @@ export default function RepoItem({ data }: { data: MixedRepo }) {
           target="_blank"
           className="flex items-center gap-1 text-lg font-bold underline-offset-4 hover:text-primary hover:underline"
         >
-          {full_name}
+          {name}
           <ExternalLinkIcon size={14} />
         </Link>
 

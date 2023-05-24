@@ -7,18 +7,6 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-export function pick<T extends Record<string, any>, K extends keyof T>(
-  obj: T,
-  keys: K[]
-): Pick<T, K> {
-  return keys.reduce((acc, key) => {
-    if (obj.hasOwnProperty(key)) {
-      acc[key] = obj[key]
-    }
-    return acc
-  }, {} as Pick<T, K>)
-}
-
 export function fuzzyMatch(str: string, pattern: string): boolean {
   // 将字符串和模式都转换为小写字母，方便比较
   str = str.toLowerCase()

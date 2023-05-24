@@ -75,6 +75,7 @@ export default function useSupabaseData() {
       return
     }
     const { data } = await res.json()
+
     setGithubRepos(data)
     db.set(LOCAL_DB.GH_REPOS, data)
   }

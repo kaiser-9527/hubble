@@ -6,8 +6,6 @@ import {
   TagItem,
 } from "@/types/base"
 
-import { pick } from "./utils"
-
 const findSupaRepo = (list: SupaRepoItem[] = [], gid: number) => {
   return list.find((repo) => repo.github_id === gid)
 }
@@ -44,7 +42,7 @@ export const mixRepos = ({
 }) => {
   const langCountMap: Record<string, number> = {}
   const repos = githubRepos.map((ghRepo) => {
-    const supaRepo = findSupaRepo(supaRepos, ghRepo.id)
+    const supaRepo = findSupaRepo(supaRepos, ghRepo.github_id)
     const repoTagRelations = findRelations(relations, supaRepo?.id)
     const supaTags = findSupaTags(tags, repoTagRelations)
 
@@ -57,16 +55,7 @@ export const mixRepos = ({
     }
 
     return {
-      ...pick(ghRepo, [
-        "description",
-        "forks_count",
-        "watchers_count",
-        "language",
-        "stargazers_count",
-        "full_name",
-        "html_url",
-      ]),
-      github_id: ghRepo.id,
+      ...ghRepo,
       supa_id: supaRepo?.id,
       comment: supaRepo?.comment,
       tags: supaTags,

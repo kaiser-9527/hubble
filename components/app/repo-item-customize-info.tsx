@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { UploadCloudIcon } from "lucide-react"
 
 import { MixedRepo, TagItem } from "@/types/base"
@@ -26,6 +26,10 @@ export default function RepoItemCustomizeInfo({
   const [editableTags, setEditableTags] = useState<TagItem[]>(tags ?? [])
   const [availableTags, setAvailableTags] = useState(allTags ?? [])
   const [loading, setLoading] = useState(false)
+
+  useEffect(() => {
+    setEditableTags(tags ?? [])
+  }, [tags])
 
   const handleCancelEdit = () => {
     setCommentValue(comment ?? "")

@@ -23,32 +23,19 @@ export type SupaRepoItem = Pick<
 >
 
 export interface GithubRepoItem {
-  created_at: string
   description: string
   forks_count: number
-  full_name: string
   homepage: string
-  id: number
+  github_id: number
   language: string
   name: string
   html_url: string
   stargazers_count: number
-  topics: string[]
-  updated_at: string
   watchers_count: number
+  starred_at: string
 }
 
-export type MixedRepo = Pick<
-  GithubRepoItem,
-  | "description"
-  | "language"
-  | "forks_count"
-  | "watchers_count"
-  | "stargazers_count"
-  | "full_name"
-  | "html_url"
-> & {
-  github_id: number
+export type MixedRepo = GithubRepoItem & {
   supa_id?: number
   comment?: string | null
   tags?: TagItem[]
