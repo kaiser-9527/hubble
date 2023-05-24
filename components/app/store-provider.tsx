@@ -39,6 +39,8 @@ interface StoreContextProps {
   forceSyncAllData: () => void
 
   upsertRepo: (d: UpsertRepo) => void
+  updateTag: (tid: number, title: string) => void
+  deleteTag: (tid: number) => void
 }
 
 export const StoreContext = createContext<StoreContextProps | undefined>(
@@ -59,6 +61,8 @@ export default function StoreProvider({ children }: { children: ReactNode }) {
     getGithubRepos,
     upsertRepo,
     forceSyncAllData,
+    updateTag,
+    deleteTag,
   } = useRepoData()
 
   const search: StoreContextProps["search"] = (val?: string) => {
@@ -91,6 +95,8 @@ export default function StoreProvider({ children }: { children: ReactNode }) {
         getTags,
         forceSyncAllData,
         upsertRepo,
+        updateTag,
+        deleteTag,
       }}
     >
       {children}

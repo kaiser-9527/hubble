@@ -1,22 +1,18 @@
 import { useEffect, useState } from "react"
+import { SettingsIcon } from "lucide-react"
 
-import { ListItem } from "@/types/base"
-import { hasMiddleSpace } from "@/lib/utils"
+import { TagItem } from "@/types/base"
 
+import { Skeleton } from "../ui/skeleton"
+import { Toggle } from "../ui/toggle"
 import CategoryList from "./category-list"
+import EditableTagItem, { EditableTagItemProps } from "./editable-tag-item"
 import { useStore } from "./store-provider"
 
 export default function TagList() {
-  const { tags, relations, setSearchValue, search } = useStore()
-  const [list, setList] = useState<ListItem[]>([])
-
-  const onItemClick = (label: string) => {
-    const searchKeyword = hasMiddleSpace(label)
-      ? `tag:"${label}"`
-      : `tag:${label}`
-    setSearchValue(searchKeyword)
-    search(searchKeyword)
-  }
+  const { tags, relations } = useStore()
+  const [editable, setEditable] = useState(false)
+  const [list, setList] = useState<{ tag: TagItem; count: number }[]>([])
 
   useEffect(() => {
     const relationMap = relations
@@ -33,8 +29,8 @@ export default function TagList() {
     setList(() =>
       tags
         ? tags.map((tag) => ({
-            label: tag.title,
-            extral: relationMap[tag.id] ?? 0,
+            tag,
+            count: relationMap[tag.id] ?? 0,
           }))
         : []
     )
@@ -44,9 +40,28 @@ export default function TagList() {
     <CategoryList
       className="overflow-hidden"
       title="Tags"
-      displayTotal
-      list={list}
-      onItemClick={onItemClick}
-    />
+      titleExtral={
+        <Toggle
+          aria-label="Edit tags"
+          size="sm"
+          pressed={editable}
+          onPressedChange={setEditable}
+        >
+          <SettingsIcon size={16} />
+        </Toggle>
+      }
+    >
+      {list ? (
+        list.map((item) => (
+          <EditableTagItem {...item} editable={editable} key={item.tag.id} />
+        ))
+      ) : (
+        <>
+          <Skeleton className="h-10 w-full" />
+          <Skeleton className="h-10 w-full" />
+          <Skeleton className="h-10 w-full" />
+        </>
+      )}
+    </CategoryList>
   )
 }

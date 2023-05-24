@@ -1,22 +1,28 @@
+import React from "react"
+
 import { cn } from "@/lib/utils"
 
 import { Button, ButtonProps } from "./button"
 
-interface Props extends ButtonProps {}
+export const IconButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
+  ({ className, size, ...props }, ref) => {
+    const sizeClassNames = {
+      lg: "h-10 w-10",
+      default: "h-9 w-9",
+      sm: "h-7 w-7",
+      xs: "h-6 w-6",
+    }
 
-export function IconButton({ children, size, className, ...props }: Props) {
-  const sizeClassNames = {
-    lg: "h-10 w-10",
-    default: "h-9 w-9",
-    sm: "h-7 w-7",
-    xs: "h-5 w-5",
+    const sizeClassName = size ? sizeClassNames[size] : ""
+
+    return (
+      <Button
+        ref={ref}
+        {...props}
+        size={size}
+        className={cn(className, "p-0", sizeClassName)}
+      />
+    )
   }
-
-  const sizeClassName = size ? sizeClassNames[size] : ""
-
-  return (
-    <Button {...props} className={cn(className, "p-0", sizeClassName)}>
-      {children}
-    </Button>
-  )
-}
+)
+IconButton.displayName = "IconButton"

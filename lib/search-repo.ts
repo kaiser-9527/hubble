@@ -4,7 +4,7 @@ import { fullMatch, stringContains } from "./utils"
 
 const SearchTypeRex = [
   { type: "pure", regexp: /pure:/i },
-  { type: "lang", regexp: /lang:(\S+)/i },
+  { type: "lang", regexp: /lang:(.+)/i },
   { type: "tag", regexp: /tag:(.+)/i },
   { type: "comment", regexp: /comment:(\S+)/i },
 ]
@@ -39,60 +39,67 @@ export const searchRepo = ({
       tagList.push(match.replaceAll('"', ""))
       return ""
     })
+    .replace(/lang:\".+\"/, (match) => {
+      tagList.push(match.replaceAll('"', ""))
+      return ""
+    })
     .split(" ")
     .filter(Boolean)
 
   let result: MixedRepo[] = repos
+
   ;[...tagList, ...keywordList].forEach((val) => {
-    const valType = matchSearchType(val)
-    switch (valType.type) {
+    const matchResult = matchSearchType(val)
+    switch (matchResult.type) {
       case "pure":
         result = result.filter((repo) => !repo.comment && !repo.tags)
         break
       case "lang":
         result = result.filter((repo) => {
-          if (fullMatch(valType.value, "unknown")) {
+          if (fullMatch(matchResult.value, "unknown")) {
             return !repo.language
           }
-          return fullMatch(valType.value, repo.language ?? "")
+          return fullMatch(matchResult.value, repo.language ?? "")
         })
         break
       case "tag":
         result = result.filter((repo) =>
-          repo.tags?.some((tag) => fullMatch(tag.title, valType.value))
+          repo.tags?.some((tag) => fullMatch(tag.title, matchResult.value))
         )
         break
       case "comment":
         result = result.filter((repo) =>
-          repo.comment ? stringContains(valType.value, repo.comment) : false
+          repo.comment ? stringContains(matchResult.value, repo.comment) : false
         )
         break
       default:
         result = result.filter((repo) => {
           // match title
-          if (stringContains(valType.value, repo.full_name)) {
+          if (stringContains(matchResult.value, repo.full_name)) {
             return true
           }
 
           // match descriptin
-          if (stringContains(valType.value, repo.description)) {
+          if (stringContains(matchResult.value, repo.description)) {
             return true
           }
 
           // lang
-          if (stringContains(valType.value, repo.language)) {
+          if (stringContains(matchResult.value, repo.language)) {
             return true
           }
 
           // tag
           if (
-            repo.tags?.some((tag) => stringContains(valType.value, tag.title))
+            repo.tags?.some((tag) =>
+              stringContains(matchResult.value, tag.title)
+            )
           ) {
             return true
           }
 
           // comment
-          if (repo.comment && stringContains(valType.value, repo.comment)) {
+          if (repo.comment && stringContains(matchResult.value, repo.comment)) {
             return true
           }
 

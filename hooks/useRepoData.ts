@@ -137,6 +137,62 @@ export default function useSupabaseData() {
     db.set(LOCAL_DB.RELATION, _newRelations)
   }
 
+  const updateTag = async (tid: number, title: string) => {
+    const { error } = await supabase
+      .from("tag")
+      .update({
+        title,
+      })
+      .eq("id", tid)
+    if (!error) {
+      const newTags = tags?.map((tag) => {
+        if (tag.id === tid) {
+          return {
+            ...tag,
+            title,
+          }
+        } else {
+          return tag
+        }
+      })
+
+      setTags(newTags)
+      db.set(LOCAL_DB.TAGS, newTags)
+    }
+  }
+
+  const deleteTag = async (tid: number) => {
+    const res = await fetch(`/api/tag/${tid}`, {
+      method: "DELETE",
+    })
+    if (!res.ok) {
+      toast({
+        description: res.statusText,
+      })
+      return
+    }
+    const { data, error } = await res.json()
+    if (error) {
+      toast({
+        description: error.message,
+      })
+      return
+    }
+
+    const { removed_relations = [] } = data
+
+    const newTags = tags?.filter((tag) => tag.id !== tid)
+    const newRelations = relations.filter(
+      (r) => !removed_relations.includes(r.id)
+    )
+
+    db.set(LOCAL_DB.TAGS, newTags)
+    db.set(LOCAL_DB.RELATION, newRelations)
+
+    setTags(newTags)
+    setRelations(newRelations)
+  }
+
   const forceSyncAllData = () => {
     getGithubRepos()
     getSupabaseRepos()
@@ -206,6 +262,8 @@ export default function useSupabaseData() {
     getGithubRepos,
     getRepoTagRelation,
     upsertRepo,
+    updateTag,
+    deleteTag,
     forceSyncAllData,
   }
 }
