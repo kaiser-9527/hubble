@@ -1,12 +1,12 @@
 "use client"
 
+import RepoFilter from "@/components/app/filter"
 import AppHeader from "@/components/app/header"
 import Languages from "@/components/app/languages"
 import AppLoading from "@/components/app/loading"
 import Overview from "@/components/app/overview"
 import RepoList from "@/components/app/repo-list"
 import SearchBar from "@/components/app/search-bar"
-import SearchResultCount from "@/components/app/search-result-count"
 import SideBar from "@/components/app/sidebar"
 import StoreProvider from "@/components/app/store-provider"
 import TagList from "@/components/app/tag-list"
@@ -27,7 +27,7 @@ export default function Page() {
 
           <div className="flex flex-1 flex-col gap-2 px-4">
             <SearchBar />
-            <SearchResultCount />
+            <RepoFilter />
             <RepoList />
           </div>
 

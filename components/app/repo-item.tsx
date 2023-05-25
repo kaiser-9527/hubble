@@ -1,5 +1,6 @@
 import { useState } from "react"
 import Link from "next/link"
+import { format } from "date-fns"
 import {
   EditIcon,
   ExternalLinkIcon,
@@ -22,6 +23,7 @@ export default function RepoItem({ data }: { data: MixedRepo }) {
     watchers_count,
     html_url,
     name,
+    starred_at,
   } = data
 
   const [isEditable, setIsEditable] = useState(false)
@@ -58,19 +60,22 @@ export default function RepoItem({ data }: { data: MixedRepo }) {
         data={data}
       />
 
-      <footer className="flex gap-4 border-t border-dashed pt-2 text-xs text-muted-foreground">
-        <span className="flex gap-1">
-          <StarIcon size={14} />
-          {stargazers_count}
-        </span>
-        <span className="flex gap-1">
-          <GitForkIcon size={14} />
-          {forks_count}
-        </span>
-        <span className="flex gap-1">
-          <EyeIcon size={14} />
-          {watchers_count}
-        </span>
+      <footer className="flex justify-between border-t border-dashed pt-2 text-xs text-muted-foreground">
+        <div className="flex gap-4">
+          <span className="flex gap-1">
+            <StarIcon size={14} />
+            {stargazers_count}
+          </span>
+          <span className="flex gap-1">
+            <GitForkIcon size={14} />
+            {forks_count}
+          </span>
+          <span className="flex gap-1">
+            <EyeIcon size={14} />
+            {watchers_count}
+          </span>
+        </div>
+        <span>Starred at {format(new Date(starred_at), "PP")}</span>
       </footer>
     </Box>
   )

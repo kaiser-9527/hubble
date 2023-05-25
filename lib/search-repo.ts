@@ -75,7 +75,7 @@ export const searchRepo = ({
       default:
         result = result.filter((repo) => {
           // match title
-          if (stringContains(matchResult.value, repo.full_name)) {
+          if (stringContains(matchResult.value, repo.name)) {
             return true
           }
 
@@ -109,4 +109,27 @@ export const searchRepo = ({
   })
 
   return result
+}
+
+export const filterRepoByDate = (
+  repos: MixedRepo[],
+  [startDate, endDate]: [Date | undefined, Date | undefined]
+) => {
+  if (!startDate && !endDate) {
+    return repos
+  }
+
+  return repos.filter((repo) => {
+    const starred_at = new Date(repo.starred_at).getTime()
+
+    if (startDate && startDate.getTime() > starred_at) {
+      return false
+    }
+
+    if (endDate && endDate.getTime() < starred_at) {
+      return false
+    }
+
+    return true
+  })
 }

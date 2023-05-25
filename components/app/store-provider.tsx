@@ -15,7 +15,7 @@ import {
   TagItem,
   UpsertRepo,
 } from "@/types/base"
-import { searchRepo } from "@/lib/search-repo"
+import { filterRepoByDate, searchRepo } from "@/lib/search-repo"
 import useRepoData from "@/hooks/useRepoData"
 
 interface StoreContextProps {
@@ -31,6 +31,13 @@ interface StoreContextProps {
   setSearchValue: (val: string) => void
   displayRepos?: MixedRepo[]
   search: (val?: string) => void
+
+  // filter
+  startDate?: Date
+  endDate?: Date
+  setStartDate: (d?: Date) => void
+  setEndDate: (d?: Date) => void
+  filter: () => void
 
   // fetch data
   getGithubRepos: () => void
@@ -50,6 +57,9 @@ export const StoreContext = createContext<StoreContextProps | undefined>(
 export default function StoreProvider({ children }: { children: ReactNode }) {
   const [displayRepos, setDisplayRepos] = useState<MixedRepo[] | undefined>()
   const [searchValue, setSearchValue] = useState<string>("")
+  const [startDate, setStartDate] = useState<Date>()
+  const [endDate, setEndDate] = useState<Date>()
+
   const {
     tags,
     languagsCount,
@@ -66,12 +76,20 @@ export default function StoreProvider({ children }: { children: ReactNode }) {
   } = useRepoData()
 
   const search: StoreContextProps["search"] = (val?: string) => {
+    let _repos: MixedRepo[] | undefined
     if (!val) {
-      setDisplayRepos(repos)
+      _repos = repos
     } else {
       const res = searchRepo({ repos, keyword: val })
-      setDisplayRepos(res)
+      _repos = res
     }
+
+    _repos = _repos ? filterRepoByDate(_repos, [startDate, endDate]) : _repos
+    setDisplayRepos(_repos)
+  }
+
+  const filter = () => {
+    search(searchValue)
   }
 
   useEffect(() => {
@@ -88,6 +106,12 @@ export default function StoreProvider({ children }: { children: ReactNode }) {
         relations,
         searchValue,
         loadingCount,
+
+        startDate,
+        endDate,
+        setStartDate,
+        setEndDate,
+        filter,
         setSearchValue,
         search,
         getGithubRepos,
