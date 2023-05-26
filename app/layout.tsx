@@ -13,7 +13,12 @@ import SupabaseProvider from "@/components/supabase-provider"
 import ThemeProvider from "@/components/theme-provider"
 
 export const metadata: Metadata = {
-  title: "hubble",
+  title:
+    "Hubble - GitHub Star Management Tool - Efficiently Manage Your Starred Projects",
+  description:
+    "Efficiently manage your GitHub starred projects with our GitHub Star Management Tool. Organize your starred projects with ease and find what you need quickly.",
+  keywords:
+    "GitHub, management tool, starred projects, organization, productivity",
   themeColor: [
     { media: "(prefers-color-scheme: light)", color: "white" },
     { media: "(prefers-color-scheme: dark)", color: "black" },
