@@ -10,22 +10,9 @@ import LoadingProvider from "~/components/context/loading";
 
 const App = () => {
   return (
-    <LoadingProvider>
-      <RepoProvider>
-        <main className="container h-screen mx-auto  relative flex py-10">
-          <SideBar>
-            <UserInfo></UserInfo>
-            <OverView />
-            <LanguageList></LanguageList>
-          </SideBar>
-          <RepoList />
-          <SideBar>
-            <TagList></TagList>
-          </SideBar>
-        </main>
-        <Toaster />
-      </RepoProvider>
-    </LoadingProvider>
+    <div className="h-screen w-screen flex justify-center items-center text-lg">
+      During the system upgrade, it may take one to two hours. We apologize for any inconvenience this may cause to your use of the system. Thank you for your patience and understanding.
+    </div>
   );
 };
 
