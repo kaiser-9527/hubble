@@ -15,6 +15,7 @@ import { db } from "@/lib/db"
 import { mixRepos } from "@/lib/repo"
 import { useToast } from "@/components/ui/use-toast"
 import { useSupabase } from "@/components/supabase-provider"
+import getStarredList from "@/app/api/github-starred-repo/getStarredList"
 
 export default function useSupabaseData() {
   const { supabase, user } = useSupabase()
@@ -65,19 +66,32 @@ export default function useSupabaseData() {
   }
 
   const getGithubRepos = async () => {
-    setLoadingCount((c) => c + 1)
+    const {
+      data: { session },
+    } = await supabase.auth.getSession()
 
-    const res = await fetch("/api/github-starred-repo")
-    setLoadingCount((c) => c - 1)
+    const providerToken = session?.provider_token
 
-    if (!res.ok) {
+    if (!providerToken) {
       router.push("/login")
       return
     }
-    const { data } = await res.json()
 
-    setGithubRepos(data)
-    db.set(LOCAL_DB.GH_REPOS, data)
+    setLoadingCount((c) => c + 1)
+
+    const starredRes = await getStarredList(providerToken)
+    setLoadingCount((c) => c - 1)
+
+    if (starredRes.error) {
+      toast({
+        title: "fetch github starred repo failed.",
+        description: starredRes.error.message,
+      })
+      return
+    }
+
+    setGithubRepos(starredRes.data!)
+    db.set(LOCAL_DB.GH_REPOS, starredRes.data!)
   }
 
   const upsertRepo = async (data: UpsertRepo) => {
