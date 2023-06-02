@@ -31,6 +31,21 @@ export default function useSupabaseData() {
 
   const router = useRouter()
 
+  const getProviderToken = async () => {
+    const {
+      data: { session },
+    } = await supabase.auth.getSession()
+
+    const providerToken = session?.provider_token
+
+    if (!providerToken) {
+      router.push("/login")
+      return
+    }
+
+    return providerToken
+  }
+
   const getTags = async () => {
     setLoadingCount((c) => c + 1)
     const { data, error } = await supabase.from("tag").select("id,title")
@@ -65,21 +80,15 @@ export default function useSupabaseData() {
     setLoadingCount((c) => c - 1)
   }
 
-  const getGithubRepos = async () => {
-    const {
-      data: { session },
-    } = await supabase.auth.getSession()
-
-    const providerToken = session?.provider_token
-
-    if (!providerToken) {
-      router.push("/login")
-      return
-    }
+  const getGithubRepos = async (isFetchAll: boolean) => {
+    const providerToken = await getProviderToken()
+    if (!providerToken) return
 
     setLoadingCount((c) => c + 1)
-
-    const starredRes = await getStarredList(providerToken)
+    const starredRes = await getStarredList({
+      token: providerToken,
+      loop: isFetchAll,
+    })
     setLoadingCount((c) => c - 1)
 
     if (starredRes.error) {
@@ -90,8 +99,48 @@ export default function useSupabaseData() {
       return
     }
 
-    setGithubRepos(starredRes.data!)
-    db.set(LOCAL_DB.GH_REPOS, starredRes.data!)
+    const { data: starredRepos } = starredRes
+
+    if (isFetchAll) {
+      setGithubRepos(starredRepos!)
+      db.set(LOCAL_DB.GH_REPOS, starredRepos!)
+    } else {
+      // TODO  fetch latest repos
+      console.log("repos", repos)
+      console.log("-latest-", starredRepos)
+      const repoMap: Record<number, number> | undefined = repos?.reduce(
+        (pre, repo) => {
+          return {
+            ...pre,
+            [repo.github_id]: 1,
+          }
+        },
+        {}
+      )
+      const _repos = repos ? [...repos] : []
+      starredRepos?.forEach((repo) => {
+        if (!repoMap?.[repo.github_id]) {
+          _repos.unshift(repo)
+        }
+      })
+      setGithubRepos(_repos)
+      db.set(LOCAL_DB.GH_REPOS, _repos)
+      console.log(_repos)
+    }
+  }
+
+  const getAllGithubRepos = async () => {
+    getGithubRepos(true)
+  }
+
+  const getLatestGithubRepos = async () => {
+    getGithubRepos(false)
+  }
+
+  const getCustomData = () => {
+    getSupabaseRepos()
+    getTags()
+    getRepoTagRelation()
   }
 
   const upsertRepo = async (data: UpsertRepo) => {
@@ -209,7 +258,7 @@ export default function useSupabaseData() {
   }
 
   const forceSyncAllData = () => {
-    getGithubRepos()
+    getAllGithubRepos()
     getSupabaseRepos()
     getTags()
     getRepoTagRelation()
@@ -222,7 +271,7 @@ export default function useSupabaseData() {
     const _relation = await db.get(LOCAL_DB.RELATION)
 
     if (!_ghRepos) {
-      getGithubRepos()
+      getAllGithubRepos()
     } else {
       setGithubRepos(_ghRepos)
     }
@@ -274,9 +323,11 @@ export default function useSupabaseData() {
 
     getTags,
     getSupabaseRepos,
-    getGithubRepos,
+    getAllGithubRepos,
     getRepoTagRelation,
+    getLatestGithubRepos,
     upsertRepo,
+    getCustomData,
     updateTag,
     deleteTag,
     forceSyncAllData,

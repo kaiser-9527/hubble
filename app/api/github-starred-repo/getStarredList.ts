@@ -15,17 +15,25 @@ interface ResData {
   starred_at: string
 }
 
-export default async function getStarredList(
-  token: string,
+export default async function getStarredList({
+  token,
+  loop = true,
   page = 1,
-  result: GithubRepoItem[] = []
-): Promise<{
+  result = [],
+}: {
+  token: string
+  loop?: boolean
+  page?: number
+  result?: GithubRepoItem[]
+}): Promise<{
   data?: GithubRepoItem[]
+  page?: number
+  lastPageSize?: number
   error?: any
 }> {
   try {
     const res = await fetch(
-      `https://api.github.com/user/starred?page=${page}&per_page=100`,
+      `https://api.github.com/user/starred?page=${page}&per_page=100&v=${Date.now()}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -52,7 +60,13 @@ export default async function getStarredList(
     }))
 
     const _list = [...result, ..._data]
-    if (data?.length === 100) return getStarredList(token, page + 1, _list)
+    if (loop && data?.length === 100)
+      return getStarredList({
+        token,
+        page: page + 1,
+        loop,
+        result: _list,
+      })
     return { data: _list }
   } catch (error) {
     return { error }

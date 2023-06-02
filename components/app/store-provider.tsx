@@ -40,9 +40,11 @@ interface StoreContextProps {
   filter: () => void
 
   // fetch data
-  getGithubRepos: () => void
+  getAllGithubRepos: () => void
+  getLatestGithubRepos: () => void
   getSupabaseRepos: () => void
   getTags: () => void
+  getCustomData: () => void
   forceSyncAllData: () => void
 
   upsertRepo: (d: UpsertRepo) => void
@@ -68,9 +70,11 @@ export default function StoreProvider({ children }: { children: ReactNode }) {
     loadingCount,
     getTags,
     getSupabaseRepos,
-    getGithubRepos,
+    getAllGithubRepos,
     upsertRepo,
     forceSyncAllData,
+    getLatestGithubRepos,
+    getCustomData,
     updateTag,
     deleteTag,
   } = useRepoData()
@@ -114,9 +118,11 @@ export default function StoreProvider({ children }: { children: ReactNode }) {
         filter,
         setSearchValue,
         search,
-        getGithubRepos,
+        getAllGithubRepos,
         getSupabaseRepos,
         getTags,
+        getCustomData,
+        getLatestGithubRepos,
         forceSyncAllData,
         upsertRepo,
         updateTag,
